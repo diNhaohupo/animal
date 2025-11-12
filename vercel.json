@@ -1,15 +1,23 @@
 {
-    "version": 2,
-    "builds": [
-        {
-            "src": "index (1).html",
-            "use": "@vercel/static"
-        }
-    ],
-    "routes": [
-        {
-            "src": "/",
-            "dest": "/index (1).html"
-        }
-    ]
+  "version": 2,
+  "builds": [
+    {
+      "src": "index(1).html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "data.js",
+      "use": "@vercel/static" // 以静态文件形式部署
+    }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/index(1).html"
+    },
+    {
+      "src": "/data.js", // 访问 /data.js 时
+      "dest": "/data.js" // 指向部署后的 data.js 文件
+    }
+  ]
 }
