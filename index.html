@@ -103,8 +103,6 @@
     const animalGuide = document.getElementById('animal-guide');
     const resultDescription = document.getElementById('result-description');
 
-    let currentQuestionIndex = 0, selectedOptions = [], isProcessing = false;
-
     function showScreen(screenName) { Object.values(screens).forEach(s => s.classList.add('hidden')); screens[screenName].classList.remove('hidden'); }
     function formatDescription(text) { return text.replace(/### (.*?)\n/g, '<h3>\$1</h3>'); }
     
