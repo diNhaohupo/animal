@@ -1,179 +1,13 @@
+// data.js
+
 // 核心变量定义
+// 注意：卡券相关的数据和函数已从此文件移除，交由维格表和主HTML文件处理。
 let currentQuestionIndex = 0;
 let scores = {};
 let selectedOptions = [];
 let isProcessing = false;
 
-// 卡券密码数据库（保留全部100条数据）
-let validCouponCodes = [
-    {code: "7K3P9X2Z5Q8R", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "2B8L4M7N1O3S", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "9D6F1G5H2J4K", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "3C7V2B9N4M6P", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "5T8Y3U6I9O2P", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "1R4E7W3Q6T9Y", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "8S2D5F7G1H3J", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "4K6L9M2N5O8P", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "6X2C5V7B9N3M", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "3Z8X5C2V7B4N", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "9Q2W5E7R4T6Y", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "2A5S8D6F3G7H", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "5J8K3L6M9N2O", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "7P2Q5R8T3Y6U", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "4I9O3P6L2K5J", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "6F2G5H8J3K7L", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "8D3S6A9Z2X5C", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "1V4B7N2M5K8P", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "3Y6U9I2O5P8Q", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "5T8R2E5W7Q9A", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "7G2H5J8K3L6F", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "9M2N5O8P3Q6R", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "2B5V7C9X3Z6D", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "4S8A2D5F7G9H", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "6J9K2L5M7N9O", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "8P2Q5R7T9Y2U", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "1O5I8U2Y4T6R", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "3L6K9J2H5G7F", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "5N8M2B5V7C9X", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "7Z2X5C8V7B4N", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "9Q5W2E8R5T7Y", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "2A8S5D2F7G4H", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "4J7K9L5M2N8O", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "6P3Q5R8T2Y7U", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "8I5O2P7L5K3J", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "1F8G5H2J7K4L", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "3D5S8A2Z5X7C", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "5V2B7N5M8K2P", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "7Y5U2I8O5P3Q", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "9T2R5E8W2Q5A", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "2G5H8J2K5L7F", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "4M8N2O5P8Q2R", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "6B2V5C8X2Z5D", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "8S2A5D8F2G5H", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "1K5L8J2H5G8F", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "3M5N8B2V5C8X", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "5X2C8V5B2N5M", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "7W5E2R8T5Y2U", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "9S2D5F8G2H5J", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "2L5M8N2O5P8Q", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "4U5Y8T2R5E8W", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "6H5J8K2L5M8N", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "8Q5P2O8I5U2Y", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "1R5T2Y8U5I2O", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "3F5G2H8J5K2L", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "5Q2P8O5I2U8Y", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "7E8W2Q5A8S2D", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "9F2G5H8J2K5L", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "2R5T8Y2U5I8O", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "4P2O5I8U2Y5T", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "6N2M5B8V2C5X", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "8Z5X2C8V5B2N", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "1W2E5R8T2Y5U", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "3D5S2A8Z5X2C", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "5V2B5N8M2K5P", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "7I8O2P5Q8R2T", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "9J2K5L8M2N5O", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "2H5J8K2L5M8N", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "4G2F5D8S2A5Z", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "6X2C5V8B2N5M", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "8Y2U5I8O2P5Q", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "1T5R2E8W5Q2A", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "3L5K8J2H5G8F", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "5O2I8U5Y2T8R", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "7Q5P2O8I5U2Y", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "9W2E5R8T2Y5U", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "2S5D8F2G5H8J", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "4M2N5O8P2Q5R", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "6V5B8N2M5K8P", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "8C2X5Z8A2S5D", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "1K5L2J8H5G2F", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "3O5I2U8Y5T2R", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "5P2Q5R8T2Y5U", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "7F5G2H8J5K2L", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "9N2M5B8V2C5X", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "2X5C8V2B5N8M", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "4E8W2Q5A8S2D", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "6J2K5L8M2N5O", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "8Y2U5I8O2P5Q", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "1R5T2Y8U5I2O", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "3G2H5J8K2L5M", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "5P8Q2R5T8Y2U", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "7B2N5M8K2P5Q", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "9Z5X2C8V5B2N", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "2A8S5D2F7G4H", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "4L5M8N2O5P8Q", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "6U5Y8T2R5E8W", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "8J5K2L5M8N2O", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "1O5P8Q2R5T8Y", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "3V5B2N5M8K2P", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "5C8X2Z5A8S2D", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "7H5J2K5L8M2N", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "9F2G5H8J2K5L", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "2R5T8Y2U5I8O", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "4Q2P5O8I2U5Y", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "6W5E2R8T5Y2U", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "8S2D5F8G2H5J", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "1M5N2O8P5Q2R", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "3B5V2C8X5Z2A", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "5K2L5M8N2O5P", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "7F8G2H5J8K2L", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "9U2Y5T8R2E5W", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "2Q5P8O2I5U8Y", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "4A8S2D5F8G2H", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "6N8M2B5V8C2X", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "8J2K5L8M2N5O", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "1T8Y2U5I8O2P", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()},
-    {code: "3R2E5W8Q2A5S", used: false, createdAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()}
-];
-
-// 卡券验证功能
-function validateCoupon(code) {
-    if (isProcessing) return { success: false, message: "操作处理中，请稍后" };
-    isProcessing = true;
-
-    const coupon = validCouponCodes.find(item => item.code === code);
-    let result;
-
-    if (!coupon) {
-        result = { success: false, message: "卡券不存在" };
-    } else if (coupon.used) {
-        result = { success: false, message: "卡券已被使用" };
-    } else if (new Date(coupon.expiresAt) < new Date()) {
-        result = { success: false, message: "卡券已过期" };
-    } else {
-        result = { success: true, message: "卡券验证成功", data: coupon };
-    }
-
-    isProcessing = false;
-    return result;
-}
-
-// 卡券发放功能
-function issueCoupon() {
-    if (isProcessing) return { success: false, message: "操作处理中，请稍后" };
-    isProcessing = true;
-
-    const availableCoupons = validCouponCodes.filter(
-        item => !item.used && new Date(item.expiresAt) > new Date()
-    );
-
-    if (availableCoupons.length === 0) {
-        isProcessing = false;
-        return { success: false, message: "暂无可用卡券" };
-    }
-
-    const randomIndex = Math.floor(Math.random() * availableCoupons.length);
-    const issuedCoupon = availableCoupons[randomIndex];
-    issuedCoupon.used = true;
-
-    isProcessing = false;
-    return { 
-        success: true, 
-        message: "卡券发放成功", 
-        data: { code: issuedCoupon.code, expiresAt: issuedCoupon.expiresAt } 
-    };
-}
-
+// 题目数据
 const quizData = [
     { question: "世界是一片漆黑的森林，你选择成为？", options: { A: "森林本身，感受每一片树叶。", B: "在林间温暖的篝火。", C: "隐藏在古树根下深不见底的古井。", D: "一阵穿过所有缝隙的风。" } },
     { question: "你获得了一块记忆橡皮擦，你会擦掉？", options: { A: "别人对你的所有亏欠，让心灵彻底自由。", B: "你最尴尬最羞耻的那个瞬间。", C: "一段让你心碎的感情。", D: "你犯下的一个无法弥补的错误。" } },
@@ -237,6 +71,7 @@ const quizData = [
     { question: "选择你的灵魂图腾：", options: { A: "螺旋。", B: "心形。", C: "圆圈。", D: "三角。" } },
 ];
 
+// 计分映射表
 const scoreMap = [
     { A: { AES: 2 }, B: { COM: 2 }, C: { SOL: 2 }, D: { AGI: 2 } },
     { A: { COM: 2 }, B: { SEC: 2 }, C: { AES: 2 }, D: { STR: 2 } },
@@ -300,106 +135,289 @@ const scoreMap = [
     { A: { AES: 2 }, B: { COM: 2 }, C: { SEC: 2 }, D: { DOM: 2 } }
 ];
 
+// 动物原型总分
 const ANIMAL_ARCHETYPE_TOTAL = 20;
+
+// 动物原型数据，已整合您提供的最新描述
 const animalArchetypes = {
     "狗": { 
         vector: { DOM: 1, STR: 1, COM: 5, SOL: 0, AGI: 3, SEC: 4, AES: 1 }, 
-        desc: "狗塑的你是最富有同情心、最乐于助人的动物人格之一，你友好热诚、亲切随和，很少有嫉妒、愤懑的心理，总是用乐观积极的心态面对生活，乐于倾听和接受建议。同时，你擅长和他人通力合作且不会为了出风头而争权夺利，会尽最大的努力创造正面的影响。在人际关系中，你不知疲倦的关心着所有身边珍视的人，能够理解、支持、帮助他人，是非常好的家人和伴侣。狗型人格的性格弱势在于过于认真和动感情，这在他人看起来是非常优秀、亲切的性格特质同时也是一把双刃剑，可能会导致你忽视自己的需求、压抑自己的情感，以至于有时会过度地陷入别人的问题里，反而忘记了自己也需要被关心、被照顾，因而产生压力大、情绪低落等问题。",
+        desc: `狗塑的你是最富有同情心、最乐于助人的动物人格之一，你友好热诚、亲切随和，很少有嫉妒、愤懑的心理，总是用乐观积极的心态面对生活，乐于倾听和接受建议。同时，你擅长和他人通力合作且不会为了出风头而争权夺利，会尽最大的努力创造正面的影响。在人际关系中，你不知疲倦的关心着所有身边珍视的人，能够理解、支持、帮助他人，是非常好的家人和伴侣。狗型人格的性格弱势在于过于认真和动感情，这在他人看起来是非常优秀、亲切的性格特质同时也是一把双刃剑，可能会导致你忽视自己的需求、压抑自己的情感，以至于有时会过度地陷入别人的问题里，反而忘记了自己也需要被关心、被照顾，因而产生压力大、情绪低落等问题。
+        
+### 💪🏻性格优势
+「热诚」和「关怀」是你最闪闪发光的性格特质，你能够毫不忸怩地表达自己的情绪，全身心投入到你所喜爱的事物或人之上，投入精力维系你所期待的梦想和理想的人际关系，这份坦率是许多人无法做到的。除此之外，优秀的交流及表达能力也让你在成功路上更加简单，尤其是需要和他人沟通时，你如鱼得水。
+        
+### ❤️感情生活
+狗型人格无疑是「最佳恋人」的有力竞争者，你忠诚、热烈，希望建立一段亲密且深厚的关系，对待感情认真且有深深的同理心，无论是恋人的言语、行为还是需求，都会被你敏锐的放在心中，并认真的对待。
+        
+### 💼职业发展
+你们的头脑灵活、热情开朗，在人际交往方面得心应手，且善于合作，具有领导才能和凝聚力，对自己所热爱的事业尽职尽责，因此你适合于多组织、沟通、社交的工作领域。适合你的工作领域有：服务业、传媒业、商业、社会工作、管理领域、教育业、卫生保健领域等。典型职业有：福利院管理者、文艺工作者、资金募集人、市场主管、记者、制片人、教育心理学家、特殊教育老师、指挥家、销售培训员、项目经理等。`,
         getCpInterpretation: (userAnimal, cpAnimal) => `【${userAnimal}】和【${cpAnimal}】的组合，是社交需求和个人空间的完美调和。作为【${userAnimal}】，你天生外向，需要通过与人交往获得能量和快乐，你的忠诚和热情使你成为群体中的粘合剂。而【${cpAnimal}】则更倾向于保留自己的独立空间，享受独处的宁静。你们的关系中，【${cpAnimal}】不会被你的热情所淹没，反而因为你的存在，感受到了世界的温暖与善意，愿意为你敞开一个进入其内心世界的专属通道。同样，【${cpAnimal}】的沉静与专注，能让你在喧嚣的社交后找到一个可以完全放松、恢复精力的港湾。你带它看见世界的热闹，它带你领略内心的风景，这种互补让你们的关系既充满活力又不乏深度，构成了一种非常健康的平衡。`
     },
     "猫": { 
         vector: { DOM: 1, STR: 2, COM: 0, SOL: 5, AGI: 4, SEC: 2, AES: 3 }, 
-        desc: "你是优雅的独立思想家，神秘且自我满足。你享受独处，拥有丰富的内心世界。你行动敏捷，好奇心强，但只对自己感兴趣的事物投入精力。你的魅力在于那份若即若离的疏离感和无法预测的灵动。",
+        desc: `猫塑的你是天生的艺术家，有出色的艺术天赋和时尚品味，在声音、光线、色彩、节奏等方面都有出色的表现，这是源于你敏感的内心世界和敏锐的洞察力，能够察觉出别人根本察觉不到的细微差别。在与他人相处时，你往往能够保持自我的想法和观点，但也不愿意评价或改变别人，或者为了辩论输赢而让对方感到不快。因此，你总是优雅的、彬彬有礼的、风度翩翩的，给他人留下深刻的好印象。对于猫型人格而言，难以决断是性格中需要规避的弱势。
+        
+### 💪🏻性格优势
+「思考力」和「洞察力」是猫型人格令人惊叹的性格优势，你善于思考和观察周围的环境，并通过这些让自身更受启发。对于理想和价值观，你有着强烈的信念感，对自我要求很高，善于创造美好的生活且重视主要的细节，这让你在筹备、创作和督察时表现出色。
+        
+### ❤️感情生活
+猫型人格是细腻、敏感、深情的恋人，对待爱情非常认真，忠于自己所重视的人和心中的价值观，乐于倾听、安慰、陪伴，并愿意为伴侣提出自己的建议，希望帮助对方解决遇到的问题。当你作出承诺时，你会坚持到底，同样的，你也希望拥有一个情绪稳定、体贴关怀的伴侣。
+        
+### 💼职业发展
+比起高薪工作，猫型人格更适合那些自身喜爱的领域，限制创作自由的工作会大大降低你的工作热情，而当目前选择的领域你感兴趣或氛围良好，你能出色的发挥自己的能力。适合你的工作领域有：艺术领域、商业、服务业、卫生健康业、传媒业、表演、商业经营领域等。典型职业有：音乐家、厨师、医生、翻译、画家、娱乐业业主、理疗师、顾问、市场经理等。`,
         getCpInterpretation: (userAnimal, cpAnimal) => `【${userAnimal}】和【${cpAnimal}】的组合，是独立灵魂与温暖陪伴的理想范式。作为【${userAnimal}】，你极度重视个人空间和精神独立，享受独处带来的能量。你不会轻易让人靠近，但这正是你魅力的来源。而【${cpAnimal}】拥有极高的社交热情和陪伴意愿，它能敏锐地察觉到你的边界感，并给予充分的尊重。它不会强行闯入你的世界，而是用持续而温和的关怀，让你感受到被在乎。你会发现，它的存在并未消耗你的能量，反而为你提供了一个安全的情感出口。在你需要的时候，它永远在那里，提供无条件的接纳。你的独立教会它在关系中保持自我，而它的温暖则让你学会了适度依赖，让你的世界不再只有一个人。`
     },
     "狼": { 
         vector: { DOM: 4, STR: 4, COM: 3, SOL: 2, AGI: 2, SEC: 1, AES: 0 }, 
-        desc: "你是天生的领袖与战略家，兼具力量与社群智慧。你既能独立思考，又能无缝地融入团队。你对目标执着，有强烈的责任感和领地意识，为了守护族群，你会展现出惊人的统御力和谋略。",
+        desc: `狼塑的你，独立、客观、冷静、富有智慧，着眼于现在，注重效率和细节完善，有条理性和判断力，热爱分析理念，会不断思考、不断完善方法，再去安排自己具体的生活和工作，列出必要的步骤完成任务，这也使得你的计划往往能够成功。在生活中，你恪守着自己认可且清楚的标准和信念，有绝对不允许侵犯的原则和底线。狼塑的你性格弱势在于对于他人的感受不会自然产生同感，更习惯于用现实、经历和经验进行决定。
+        
+### 💪🏻性格优势
+「独立」和「沉稳」是狼型人格令人惊叹的性格优势，你有冷静、独立且富有智慧的头脑，绝不会人云亦云或是被他人牵着鼻子走，而是进行反复的思考，这让你的想法和态度都具有很强的个人风格。而当你接手一项任务时，你乐于创造自己的架构和方法，会努力把事情做到完美，值得信赖。
+        
+### ❤️感情生活
+在一段感情里，狼型人格往往展现出和独立、冷静表面看起来不相符的深情和专一，会认真对待另一半的需求和情绪，包容和理解对方的行为和想法，愿意解决纠纷，而不是视而不见，在对方需要的时候，总能及时地出现。你期待建立深刻、健康的恋爱关系，寻找一个能相伴一生的爱侣。
+        
+### 💼职业发展
+狼型人格聪颖独立，言出必行，拥有一套明晰的标准和信念，工作中非常认真，值得信赖，能够独自专注地进行办公。适合你的工作领域有：管理、科技领域、技术领域、金融业、卫生保健业、金融业、商业等。典型职业有：预算分析师、健身教练、警官、建筑工程师、企业家、土地开发商、销售经理、公司高管等。`,
         getCpInterpretation: (userAnimal, cpAnimal) => `【${userAnimal}】和【${cpAnimal}】的组合，是权责与审美的有力结合。作为【${userAnimal}】，你具备天生的领导力和战略眼光，习惯于承担责任，带领团队向着目标前进。你的世界观宏大而务实。而【${cpAnimal}】则在精神和审美层面有着极高的追求，它关注事物的和谐与内在价值，能为你宏伟的目标注入灵魂和美感。它或许不直接参与你的“战斗”，但它能在精神上给你最深刻的理解和支持，缓解你作为领导者所承受的压力与孤独。你的力量能为它的理想主义提供现实的土壤，让美不仅仅是空想；而它的审美与品味，则能提升你所构建的“王国”的格调与内涵。你们是事业上的最佳盟友，也是精神上的知己。`
     },
     "狐": { 
         vector: { DOM: 1, STR: 5, COM: 0, SOL: 4, AGI: 4, SEC: 1, AES: 1 }, 
-        desc: "你是机敏的策略家与孤独的观察者。你拥有超凡的智慧和适应能力，擅长在复杂的环境中找到最优解。你倾向于独立行动，用敏锐的洞察力规避风险，达成目标。你的生存哲学是“智取”而非“强攻”。",
+        desc: `狐塑的你活力四射、热情洋溢、自信健谈，很容易与人相处，是任何社交聚会的亮点，也能在职场中用活跃的思维和富有效率的工作状态创造令人惊叹的成绩，非常具有人格魅力。身为狐狸型的你有着出色的沟通技巧并能够充分利用它，和他人在轻松、愉悦的氛围中展开交谈，话题广泛且绝不会冷场。「容易懈怠」是狐狸型人格性格中的盲点，被约束或需要长时间重复某件事情时会产生斗志不足、拖延的状态。
+        
+### 💪🏻性格优势
+不满足于现状、不断地尝试和超越是你最令人钦佩的性格特质，你不甘于一直生活在自己的舒适区，而是希望过着最充实的生活，这并非一腔孤勇，而是你热情、自由的心所带来的勇敢。你会尝试不同的方法，并乐于接受新的思想，善于解决冲突，并很愿意为了自己该做的事情投入时间和精力。这些性格特质都会让你在平凡中脱颖而出，获得更高的成就。
+        
+### ❤️感情生活
+狐狸型人格是活跃的、浪漫的、有趣的恋人，喜爱和对方分享生活中的快乐，期待着新机会和激动人心的经历。身为狐狸型人格的你总能成为人群中的焦点，给对方留下深刻印象并从而获得喜爱和欣赏。但这并不意味着你是对待感情很「随意」的人，相反，你能够意识到伴侣的需要，并乐于和对方一同朝着未来努力。
+        
+### 💼职业发展
+狐狸型人格能够在不断变化着的工作环境中茁壮成长，有冲劲且心态平和，能够营造出生动的气氛，让工作变得有趣，但同时也可能会在组织安排时间和完成规章制度上有一定困难。适合你的工作领域有：护理业、教育业、商业、社会服务、娱乐业、艺术业等。典型职业有：培训人员、零售经理、社会工作者、市场调研员、电视记者、厂长、酒保、交通管理员等。`,
         getCpInterpretation: (userAnimal, cpAnimal) => `【${userAnimal}】和【${cpAnimal}】的组合，是一场高水平的智力共舞。作为【${userAnimal}】，你拥有顶级的智慧和策略，习惯于独立思考，享受在复杂局面中穿梭自如的快感。你需要的是一个能跟上你思维节奏，甚至能与你博弈的对手兼伙伴。而【${cpAnimal}】恰好就是这样的存在。它同样聪慧，好奇心旺盛，并且善于解决问题和传递信息。你们的交流高效且充满乐趣，常常在别人还没反应过来时，就已经通过眼神交换了复杂的计划。它能迅速理解你的策略并完美配合，甚至能从你忽略的角度提供关键信息。你们在一起，世界就是一个巨大的解谜游戏，每一次合作都让你们对彼此的智慧更加欣赏。`
     },
     "狮": { 
         vector: { DOM: 5, STR: 2, COM: 3, SOL: 3, AGI: 1, SEC: 2, AES: 2 }, 
-        desc: "你是自信的王者，天生自带光环。你有强烈的统御欲和表现力，享受成为焦点的感觉。你慷慨、富有魅力，但有时也需要独处的空间来积蓄力量。你的存在本身就是一种宣告，充满力量与威严。",
+        desc: `狮子塑的你拥有极强的人格魅力，乐观积极、热情似火，不在意别人的看法，更不会为了金钱和权利失去自我。你拥有着永无止境的好胜心，把每一天都当作提升自己、挑战一切的机遇，并有着将自身新颖的想法转变为现实的能力。最大的挑战是处理细节问题和稳定情绪，对不喜欢的事物会很快产生厌倦心理，尤其是在进行重复性较多的工作时，会失去耐心。
+        
+### 💪🏻性格优势
+狮子型人格在「管理」和「创新」方面具有很强的性格优势。你是天生的领导者，有魄力、有活力、有威严，不使用强压对待下属，而是用富有远见的想法和个人魅力让对方真心的尊重。你易于接受新的事物，总能提出新的可能，当和伙伴们一起将理想转变为现实时，会让你获得满满的成就感。
+        
+### ❤️感情生活
+在一段关系中，狮子型人格仍旧会保持纯良的天性，乐观、开朗、幽默，为恋人带来快乐和幸福的感觉。对你而言，「神秘感」是无法抗拒的吸引力，当对方引起你的兴趣时，你会非常关注对方的一举一动。与外表有些出入的是，你对承诺和未来是非常认真的，希望能和另一半一起营造健康的爱情关系。
+        
+### 💼职业发展
+狮子型人格富有奋斗精神，能够在不断变化中茁壮成长，对感兴趣的领域有着无尽的热情，往往比他人更富有行动力。易于接受新的事物也让你能在许多领域得到突破。适合你的工作领域有：社会科学、计算机、艺术业、商业、金融业、教育等。典型职业有：大学教授、演员、程序员、酒店经理、警官、土地开发商、新闻记者等。`,
         getCpInterpretation: (userAnimal, cpAnimal) => `【${userAnimal}】和【${cpAnimal}】的组合，是舞台中心与幕后远见的强强联合。作为【${userAnimal}】，你天生具有王者风范，享受成为焦点的感觉，你的自信和魅力能吸引众人追随。但身居高位，你需要一个不被你的光环所迷惑，能看到全局的伙伴。而【${cpAnimal}】正是那个能与你平视，甚至看得更远的存在。它拥有宏大的视野和冷静的判断力，不追求舞台的荣光，而是专注于长远的目标。它能理解你作为领导者的抱负与孤独，在你被掌声包围时，为你指出潜在的风险；在你需要独处积蓄力量时，为你守住一片宁静的天空。你主导当下，它规划未来，你们的结合是真正的权力与智慧的联盟。`
     },
     "熊": {
         vector: { DOM: 3, STR: 1, COM: 1, SOL: 4, AGI: 0, SEC: 5, AES: 1 },
-        desc: "你是沉稳的守护者，强大而内敛。你大部分时间安静、平和，享受自己的节奏，但当领地或家人受到威胁时，会爆发出无与伦比的力量。你重视安全感，喜欢为自己和亲近的人建立一个舒适、安全的庇护所。",
+        desc: `熊型人格具有友好、传统、健谈、谨慎的性格特质，重视自己的责任与承诺，如同一块坚硬的巨石，是值得信赖和依靠的存在。你能脚踏实地的完成自己手中的任务，且有着强烈的责任感，不遗余力地履行自己的职责和义务并能真实具体地帮助别人。因此，你往往是处理日常事务的可靠人选，也是家人朋友心中避风的港湾。弱势在于缺乏对自己需求的关注和过于隐忍。
+        
+### 💪🏻性格优势
+「团队化」和「现实感」是熊型人格令人惊叹的性格优势，你善于沟通和合作，是一个团队中不可或缺的中坚力量。作为优秀的团队成员，你能用积极的态度与他人合作，给予他人切实的帮助，而你现实、沉稳的性格又使得你提供的帮助是具有实际意义、富有成效的。
+        
+### ❤️感情生活
+熊型人格是传统、认真、专一的恋人，具有很强的家庭观念，对于自己的承诺十分认真，看重感情的归属，需要得到也会尽力给予对方安全感和幸福，会很好地回报从另一半那里得到的行动和承诺。可以说，你是适合长时间相处并建立家庭关系的恋人，温暖、踏实、有爱心，愿意和心上人一同白头偕老。
+        
+### 💼职业发展
+熊型人格富有责任感，有广泛的交际面，善于有条理的安排工作，且有着杰出的组织才能，因此能够完成复杂的工作。适合你的工作领域有：制造业、商业、服务业、娱乐业、旅游业、社区服务、教育业等等。典型职业有：市场营销人员、运动教练、社区工作人员、记者、主持人、幼教老师、接待员、秘书等。`,
         getCpInterpretation: (userAnimal, cpAnimal) => `【${userAnimal}】和【${cpAnimal}】的组合，是绝对安全感与高度警觉的完美互补。作为【${userAnimal}】，你代表着稳定和力量，能为所爱的人提供一个坚实可靠的庇护所。你对安全感的重视，让你成为关系中最可靠的基石。而【${cpAnimal}】天生敏感、警惕性高，习惯于留意环境中的一切风吹草动。有你这样强大的守护者在身边，它终于可以放下紧绷的神经，享受到前所未有的放松和安宁。反过来，它的高度警觉性也能弥补你因沉稳而可能忽略的细节，提前预警潜在的麻烦。你们一个提供物理和心理上的绝对保护，一个负责信息搜集和风险预警，共同打造了一个固若金汤的、充满温暖的家。`
     },
     "兔": {
         vector: { DOM: 0, STR: 1, COM: 2, SOL: 2, AGI: 5, SEC: 5, AES: 2 },
-        desc: "你是警觉的和平主义者，敏捷且富有同情心。你极度需要安全感，对环境变化非常敏感。你行动迅速，擅长躲避冲突。虽然有时会显得胆小，但你在熟悉和安全的小圈子里，会展现出活泼、温和的一面。",
+        desc: `兔塑的你有热诚、敏感、善解人意、富有同情心的性格特质，内心有着强烈的情感，很重感情，对于在乎或信任的事情，你非常坚定且愿意为此付出大量的时间和精力。但当你的底线受到质疑或威胁时，你会摆出具有侵略性的守护态势，捍卫自己的生活。对于兔子型人格最大的挑战是人际关系上的不和谐，无心的话语或想法冲突都可能让你想得太多、压力倍增。
+        
+### 💪🏻性格优势
+兔型人格有着不断优化和调整自我的独特的性格优势，你富有理解力和洞察力，能够集中注意深入某个问题或观点，往往在理解理论和复杂事物上有优势，也总能给人留下认真、稳重、内敛的性格。同时，你善于自省，重视自己的内心活动，通过独处的时间能让你变得更平和、更稳定、更具有智慧。
+        
+### ❤️感情生活
+在恋爱关系中，兔型人格是非常善解人意且贴心的伴侣，重视忠诚和诚实，会努力保持和恋人的亲密和深厚的关系，渴望找到一个“灵魂伴侣”。你对对方的包容度很高，乐于倾听、倾向于理解，能提供情绪支持和爱护。相应的，当你得到对方的付出时，会感到觉得深深的幸福和满足。
+        
+### 💼职业发展
+兔型人格善于在符合自己价值观的领域进行工作，并愿意为此付出大量的精力和时间，当感受到被需要且能让自己进步时，会感到由衷的快乐，因此适合在稳定的团队、组织中展现出色的才能。适合你的工作领域有：艺术业、教育业、服务业、商业、咨询业等。典型职业有：团队建设顾问、心理学家、记者、美术指导、新媒体运营、服装设计师、音乐治疗师等。`,
         getCpInterpretation: (userAnimal, cpAnimal) => `【${userAnimal}】和【${cpAnimal}】的组合，是焦虑灵魂与稳定内核的相互治愈。作为【${userAnimal}】，你天生对环境高度敏感，需要极大的安全感才能感到舒适。你习惯于规避冲突，但这也会让你错过一些风景。而【${cpAnimal}】则拥有强大的情绪稳定性，它的平和与包容能极大地安抚你的紧张。和它在一起，你会觉得世界都变慢了、变安全了。它不介意你的胆怯，反而会耐心地陪着你，鼓励你走出舒适区。你的细腻与同情心，也能让看似“佛系”的它感受到被深入关怀的温暖。它为你提供了一个情绪的“锚”，而你则为它的生活增添了更多温柔的色彩和情感的深度。`
     },
     "仓鼠": {
         vector: { DOM: 0, STR: 0, COM: 2, SOL: 4, AGI: 1, SEC: 5, AES: 1 },
-        desc: "你是专注的囤积者与安逸的生活家。你最大的幸福来自于建立一个充满安全感的“小窝”。你喜欢收集和整理，无论是物质还是信息。你享受在自己的小世界里自得其乐，对外界的纷扰保持着一种可爱的迟钝。",
+        desc: `🐹仓鼠塑的你是人群中最治愈的小家伙，圆滚滚的身躯自带天然亲和力，粉嫩鼻尖总沾着探索世界的雀跃。你像永动机般充满活力，用绒毛包裹的温暖治愈他人，又像收藏家般珍视生活细节，总能把平凡日子过得热气腾腾。
+        
+### 💪🏻性格优势
+「蓬勃生命力」与「细节洞察力」是你最动人的特质。你像永不停歇的跑轮，用行动感染他人：朋友低落时你会默默递上坚果，恋人疲惫时你会用小爪爪轻拍肩膀。对生活细节的敏锐捕捉让你成为「氛围组」天花板——记得同事咖啡杯的图案，发现朋友新剪的刘海弧度，甚至能分辨出不同云朵的形状。
+        
+### ❤️感情生活
+仓鼠塑恋人如同「移动充电宝」，用毛茸茸的陪伴传递安全感。你会把恋人爱吃的零食分装成七色罐头，在纪念日用葵花籽摆出爱心形状，也会在对方加班时抱着尾巴当暖手宝。但敏感的仓鼠属性让你需要「安全感补给站」——偶尔需要独处囤积情感能量，这不是疏离而是为了更好拥抱世界。
+        
+### 💼职业发展
+你天生适合需要「温暖触角」的工作领域。在社区养老院，会记得每位老人的降压药服用时间；经营烘焙工作室时，连糖霜撒落轨迹都经过美学设计。典型职业包括：宠物行为训练师、手作工坊主理人、社区活动策划、儿童绘本作家、自然教育导师。`,
         getCpInterpretation: (userAnimal, cpAnimal) => `【${userAnimal}】和【${cpAnimal}】的组合，是安逸生活家与机智探险者的奇妙搭配。作为【${userAnimal}】，你的快乐源于构筑一个属于自己的、充满安全感的舒适小世界。你热爱收集和整理，享受在自己的“一亩三分地”里自得其乐。而【${cpAnimal}】则充满好奇心和动手能力，总能从平凡的生活中发掘出新奇的玩意儿。它会像一个寻宝猎人一样，不断为你带回各种有趣的“战利品”，极大地丰富你的收藏。你为它提供了一个可以安心存放宝藏、休憩放松的大后方，而它则为你打开了一扇通往外部世界的窗。你负责生活的美好，它负责生活的惊喜，你们共同的生活充满了乐趣和温馨。`
     },
     "天鹅": {
         vector: { DOM: 2, STR: 1, COM: 2, SOL: 3, AGI: 1, SEC: 2, AES: 5 },
-        desc: "你是优雅的理想主义者，对美有着极致的追求。你姿态高贵，带有一种天生的距离感，但内心深处对伴侣和家庭极为忠诚。你的世界里，精神的契合与外在的和谐同样重要，绝不容忍粗俗与将就。",
+        desc: `你是优雅的理想主义者，对美有着极致的追求。你姿态高贵，带有一种天生的距离感，但内心深处对伴侣和家庭极为忠诚。你的世界里，精神的契合与外在的和谐同样重要，绝不容忍粗俗与将就。
+        
+### 💪🏻性格优势
+「优雅秩序」与「坚韧守护」是你最耀眼的特质。你会在暴雨中为迷途雏鸟筑起浮岛，用翅膀丈量每片水域的安全半径；面对群体迁徙时，你总能用脚掌在冰面刻出精准的导航符号。对美的极致追求让你成为「自然界的策展人」——记得候鸟群飞行的黄金角度，发现晨雾消散的精确时刻，甚至能分辨出不同水质的虹彩光谱。
+        
+### ❤️感情生活
+「感情」对天鹅塑的你而言非常重要，甚至说是生活中最佳的动力来源。热心、随和的性格让你广结好友，能自然地吸引周围人的目光。你倾向于将自己的感受和周围人的感受联系起来，愿意帮助和照顾他人。对于爱情，你希望得到的是忠诚的、长久的、和谐的、能够白头偕老的浪漫关系，当恋人对你表达爱意时，你会获得满满的满足。
+        
+### 💼职业发展
+你天生适合需要「美学统御力」的领域。作为湿地生态馆的首席解说员，能用尾羽轨迹演示水流力学；在芭蕾舞团担任编导时，连群舞演员的站位都经过生态学考量；经营高端民宿时，连床品褶皱都要符合流体力学原理。典型职业包括：自然保护区总规划师、古典舞剧导演、环保艺术策展人、水利景观设计师。`,
         getCpInterpretation: (userAnimal, cpAnimal) => `【${userAnimal}】和【${cpAnimal}】的组合，是审美追求与智慧底蕴的高度共鸣。作为【${userAnimal}】，你对美和精神纯粹性有着近乎执拗的追求，这让你显得高贵而有距离感。你渴望的是一个能完全理解并欣赏你这份追求的灵魂。而【${cpAnimal}】拥有广博的智慧和深邃的内心世界，它能超越外在，看到你高贵姿态下对精神契合的渴望。它不会觉得你的标准苛刻，反而能与你在哲学、艺术等层面进行深刻的对话。它用它的智慧，解读和肯定你的审美；你用你的优雅，激发它对美的更多感悟。你们的关系建立在深刻的精神共鸣之上，是一种超越世俗的、柏拉图式的理想之爱。`
     },
     "鹿": {
         vector: { DOM: 1, STR: 1, COM: 3, SOL: 3, AGI: 3, SEC: 4, AES: 4 },
-        desc: "你是温和的自然之子，敏感而优雅。你对美和宁静有着天生的向往，常常沉浸在自己的精神世界里。你警惕性高，需要安全的环境才能放松。你的美在于那份不染尘埃的纯净和与自然融为一体的灵性。",
+        desc: `鹿型人格有着思想开放、随遇而安的性格特质，通常性格稳定且追求进步，对有趣和神秘的事物充满热情，对万事万物都感到好奇，比起在众目睽睽下表现自己，你更倾向于活在自己的一方天地之中。这并不意味着你「无欲无求」，相反的，你有敏锐的逻辑和很强的解决问题的能力。最大的挑战是对一件事情保持持久的耐心，一旦失去了兴趣，就无法将行动实施并贯彻到底。
+        
+### 💪🏻性格优势
+活跃的思维和出色的创作能力是鹿型人格最大的性格优势，你能够用出乎意料且巧妙的方法解决眼前的问题，即使是面对未知的、超出能力范围或者压力很大的情况，你也能利用逻辑和思维分析事物，能想出一些新的可能性，灵活地适应新环境。这让你往往看起来更从容、更独立。
+        
+### ❤️感情生活
+在恋爱关系中，鹿型人格往往是自然的、随意的、友好且容易相处的，没有过多要求且希望拥有纯真、直率、彼此真诚的关系。当你动心时，会投入大量时间和精力在对方身上，无论是理解、倾听还是陪伴，你都会做得很好。不喜欢发生争执的你更适合一段平和稳定的健康恋爱关系。
+        
+### 💼职业发展
+鹿型人格富有创意和想法，对自己的观点充满自信，能够把精力投入到富有创意的、富有逻辑的工作之中，有比较多需要思考的空间，不喜欢被束缚和过多的干扰。适合你的工作领域有：艺术领域、商业、科学技术业、金融业、医疗健康业、传媒业、销售业等。典型职业有：金融规划师、设计师、制作人、美容师、医生、厨师、企业家、销售经理等。`,
         getCpInterpretation: (userAnimal, cpAnimal) => `【${userAnimal}】和【${cpAnimal}】的组合，是纯净灵魂与忠诚守护者的动人故事。作为【${userAnimal}】，你敏感、优雅，对外界的喧嚣和冲突感到不安，需要一个宁静且安全的环境。你的内心世界纯净而富有灵性。而【${cpAnimal}】天性中的忠诚和守护欲，让它成为你最理想的保护者。它会被你的纯粹深深吸引，并自发地为你构建一个安全的空间，让你免受外界的打扰。它的热情和陪伴，会让你感受到前所未有的安心，从而敢于展现自己活泼的一面。而你的温和与善良，则能极大地抚慰它因守护而紧绷的神经。它守护你的身体，你治愈它的心灵，你们是彼此最温柔的依靠。`
     },
     "鹰": {
         vector: { DOM: 4, STR: 3, COM: 0, SOL: 5, AGI: 2, SEC: 1, AES: 2 },
-        desc: "你是高傲的远见者，拥有无与伦比的视野和决心。你习惯于从高处审视全局，制定长远的目标。你享受孤独，因为那能让你看得更清。你的力量不仅在于捕猎的利爪，更在于那份凌驾于一切之上的独立意志和宏大格局。",
+        desc: `鹰型人格稳重冷静、踏实能干，讲实际、重现实、重视公平，凡事公事公办、平等对待，采取客观的方法解决眼前的问题。你善于解决矛盾和困难，很少出现“放弃”的情况，无论是对他人还是对自己，都非常严格。在家庭方面，你是不折不扣的「保护者」，富有责任感。性格弱点在于有时会忽略他人的情绪变化和感受，在不经意之间伤害他人。
+        
+### 💪🏻性格优势
+「专注」和「洞察力」是鹰人格最闪闪发光的性格特质，你活在当下、注重眼前事务，不喜欢对于未来理论化的设想。每当你完成任务时，你总会详细周到的顾全每一个细节，让事情井井有条，认真、沉稳、负责到底，你会用优秀的组织能力和强大的行动力不断朝着自己的目标前进。
+        
+### ❤️感情生活
+在恋爱关系中，鹰型人格沉稳、可靠、情绪稳定，会倾注大量精力来实现自己的责任和义务，认真履行承诺，不会对伴侣提出过分要求也不喜欢发生争执。你往往能带给对方很深的依赖感和安全感，擅长处理矛盾，也致力于提升家庭的生活品质。
+        
+### 💼职业发展
+鹰型人格有着能将所有人聚集在一起的能力，无论是人格魅力还是领导力，鹰型人格都能做得很好，可以为团队人提供领导和指导。适合你的工作领域有：商业、金融业、教育业、管理业、技术领域、咨询业等。典型职业有：企业家、审计师、消防队员、物业经理、餐厅老板、法官、公司管理者、网络工程师等。`,
         getCpInterpretation: (userAnimal, cpAnimal) => `【${userAnimal}】和【${cpAnimal}】的组合，是两种顶层意志的相互致意。作为【${userAnimal}】，你习惯于在高空独自飞行，你的视野和格局决定了你不可能满足于平凡的陪伴。你需要的是一个能与你站在同一高度对话的灵魂。而【${cpAnimal}】同样拥有强大的主导欲和自信，它有自己的领地和目标。它不会试图将你拉回地面，反而会欣赏你在高空的姿态，并与你分享各自的“狩猎”成果和战略心得。你们都极度独立，尊重对方的空间和野心。你们的关系不是日常的相互依偎，而是在各自的王国取得成就后，回到山巅，与唯一的同类分享胜利的荣耀。这是一种基于相互欣赏和绝对尊重的伙伴关系。`
     },
     "乌鸦": { 
         vector: { DOM: 2, STR: 5, COM: 4, SOL: 2, AGI: 3, SEC: 1, AES: 0 }, 
-        desc: "你是聪慧的谜题解决者与信息的传递者。你拥有极高的智商和好奇心，善于观察、学习和使用工具。你具有复杂的社会结构，擅长合作与沟通。在别人看来，你或许有些神秘甚至不祥，但这正是你智慧的保护色。", 
+        desc: `乌鸦塑的你如同暗夜中的智者，热情开朗的外表下藏着敏锐的洞察力，聪慧机敏的头脑能瞬间捕捉细节，足智多谋的特质让你成为人群中的焦点。你擅长用创造力打破常规，总能从平凡中发现新奇，而这份独特的思维方式，也让恋爱和生活充满惊喜与活力。
+
+### 💡性格优势
+「创造力」与「适应力」是乌鸦塑最耀眼的标签。你活在当下，却能跳出框架思考，用天马行空的灵感将问题转化为机遇。你对外界的高度敏感，让你能迅速调整策略，如同乌鸦衔枝筑巢般，用灵活与智慧搭建属于自己的人生堡垒。
+
+### ❤️感情生活
+在恋爱中，你是「惊喜制造机」与「情绪充电站」的结合体。你深谙「仪式感不在于心意」，随手摘下一片落叶做成书签，或是用街头艺术为平凡午后注入魔法，都能让伴侣感受到被珍视的温暖。你擅长倾听却不失幽默，即使面对矛盾，你也会化身「矛盾调解员」，用逻辑与创意找到双赢解法，让关系在碰撞中愈发坚韧。
+
+### 💼职业发展
+乌鸦塑的跨界思维与资源整合能力，让你在需要创新与策略的领域如鱼得水。适合领域：创意产业（广告策划、游戏设计）、科技领域（数据分析师）、社交型职业（公关顾问、活动策划）和自由职业（独立咨询师、自媒体人）。典型角色如：战略顾问、沉浸式体验设计师、危机公关专家。`,
         getCpInterpretation: (userAnimal, cpAnimal) => `【${userAnimal}】和【${cpAnimal}】的组合，是智力层面的终极吸引。作为【${userAnimal}】，你的大脑永不停止运转，热衷于收集信息、解决谜题，并享受由此带来的智力优越感。你需要一个能激发你思考，甚至给你出难题的伙伴。而【${cpAnimal}】恰好就是那个善于布局和策略的机敏存在。它能看懂你的每一次巧妙试探，并给出更具挑战性的回应。你们的相处模式就是一场永不落幕的智力竞赛，充满了互相“挖坑”和“解套”的乐趣。别人看来复杂的对话，在你们之间却无比顺畅。你们共同把生活变成一个大型的、充满乐趣的解谜游戏，享受着只有彼此能懂的快乐。`
     },
     "水豚": { 
         vector: { DOM: 0, STR: 0, COM: 5, SOL: 2, AGI: 1, SEC: 5, AES: 2 }, 
-        desc: "你是随和的社交大师，情绪稳定，万物皆可为友。你的存在本身就能给周围带来平静与和谐。你享受社群生活，但从不强求，用一种“佛系”的态度接纳一切。你的哲学是：放轻松，没什么大不了的。", 
+        desc: `水豚塑的你如同湿地中的哲学家，圆润身躯下藏着令人惊叹的生存智慧。温和的外表与通透的灵魂浑然天成，总能用「无为而治」的哲学将冲突化解于无形。你像一块天然的情绪海绵，既能吸收周遭的焦虑，又能通过平静的呼吸频率释放治愈能量，让靠近你的人不自觉地放慢脚步。
+
+### 💧性格优势
+「钝感力」与「包容力」是水豚塑最珍贵的天赋。你深谙「水流不争先」的生存法则，面对压力时像水豚泡温泉般舒展身心，用「无所谓」的表象包裹着「我自岿然不动」的定力。群体中，你擅长用「无边界感」建立信任，用「存在即包容」的姿态让关系自然生长。
+
+### ❤️感情生活
+在亲密关系中，你是静水深流的化身。提供治愈型陪伴，无需轰轰烈烈的誓言，一个并肩看云的午后便能传递满满的安全感。当争吵一触即发，你会化身「佛系调解员」，先递上一杯温水，再用比喻让情绪自然降温。
+
+### 💼职业发展
+水豚塑的「生态型智慧」，让你在需要平衡与疗愈的领域绽放光彩。适合领域：自然疗愈师、社群架构师（非营利组织协调员）、创意缓冲带（用户体验设计师、艺术策展人）、慢生活布道者（反内耗培训师、ASMR内容创作者）。`,
         getCpInterpretation: (userAnimal, cpAnimal) => `【${userAnimal}】和【${cpAnimal}】的组合，是稳定情绪与敏感心灵的绝佳配对。作为【${userAnimal}】，你拥有极高的情绪价值，你的平和、包容能让周围的人都感到放松和安全。而【${cpAnimal}】天生警惕，内心纤细敏感，时常处于一种需要被保护的状态。你的出现，对它来说就是找到了一个绝对可以信赖的“情绪避难所”。在你的身边，它可以彻底放松下来，不必再担心外界的纷扰。你的“没什么大不了”是治愈它焦虑的最好良药。而它的敏感细腻，也能让你感受到被深入关心和照顾的幸福，让你明白你的稳定是一种多么宝贵的力量。你们在一起，就是“岁月静好”这个词最生动的写照。`
     },
     "鲸": { 
         vector: { DOM: 2, STR: 3, COM: 4, SOL: 4, AGI: 0, SEC: 2, AES: 4 }, 
-        desc: "你是深海的哲学家，古老而智慧。你承载着厚重的记忆，用深沉的歌声在广阔的社群中交流。你既能融入庞大的集体，又保持着个体的深邃孤独。你的内心像海洋一样，平静时包容万物，翻涌时充满力量。", 
+        desc: `你是深海的哲学家，古老而智慧。你承载着厚重的记忆，用深沉的歌声在广阔的社群中交流。你既能融入庞大的集体，又保持着个体的深邃孤独。你的内心像海洋一样，平静时包容万物，翻涌时充满力量。
+
+### 💪🏻性格优势
+你务实、正直、有责任心，值得信赖且重视承诺。无论处于什么阶段，你都能平静地面对问题。即使与人有争执，你也能保持冷静有礼，不轻易动怒。
+
+### ❤️感情生活
+你对感情非常认真，不仅能坚守诺言，也乐于达成伴侣的期待。但务实的性格有时也会让你缺少对恋人情绪的敏锐感知，忽略了对方的感受。尽管你心中有深深的爱意，也难以时常表达出来。最适合你的伴侣是同样注重稳定、长期的恋爱关系，性格真诚、细致，能够与你一同规划共同的未来。
+
+### 💼职业发展
+你的沉稳和责任感让你在需要深度思考和长期规划的领域中表现出色。适合你的领域包括科研、档案管理、历史研究、战略规划等。`,
         getCpInterpretation: (userAnimal, cpAnimal) => `【${userAnimal}】和【${cpAnimal}】的组合，是深邃智慧与优雅审美的灵魂共鸣。作为【${userAnimal}】，你的内心世界如同深海，广阔、古老且充满智慧。你渴望的不是肤浅的交流，而是能触及灵魂深处的理解。而【${cpAnimal}】对精神世界有着同样高的追求，它能欣赏你那份超越世俗的孤独感，并能从你的“歌声”中听出丰富的情感与哲思。它对美的极致追求，在你看来不是挑剔，而是对生命质量的尊重。你们之间的吸引力，源于对彼此精神高度的认同。你们可以长时间静默相对，却能在思想的海洋里畅游万里。你们的关系，是一场关于哲学与艺术的、永无止境的深刻对话。`
     },
     "鹦鹉": { 
         vector: { DOM: 1, STR: 2, COM: 5, SOL: 1, AGI: 5, SEC: 1, AES: 2 }, 
-        desc: "你是聪明的社交达人与天生的表演家。你热爱互动，擅长模仿和学习，是群体中的“开心果”和信息中心。你活泼好动，充满好奇心，总能给平淡的生活增添色彩和戏剧性。你的智慧体现在与他人的互动和交流中。", 
+        desc: `你是聪明的社交达人与天生的表演家。你热爱互动，擅长模仿和学习，是群体中的“开心果”和信息中心。你活泼好动，充满好奇心，总能给平淡的生活增添色彩和戏剧性。你的智慧体现在与他人的互动和交流中。
+        
+### 💪🏻性格优势
+你的适应能力和学习能力极强，能迅速掌握新技能并加以运用。你乐于分享，是天生的信息传播者和气氛制造者，有你在的场合绝不会冷场。
+        
+### ❤️感情生活
+与鹦鹉塑最合拍的伴侣，一定要能欣赏你如同孩子般的纯净与炽热，不会用“幼稚”、“不切实际”的标签伤害你，而是能够一同体验生活的美好，肯定你的生活态度并分享爱意。此外，一个开放、有趣、对世界充满好奇心，能够与你一同体验新事物、享受生活的伴侣对你至关重要。
+        
+### 💼职业发展
+你享受于宽松、自由、灵活的工作环境，有大量不受打扰的时间，不被束缚于条条框框之中，尽情地展示自己的才华和能力。适合你的工作领域有：设计业、电子信息业、演艺圈、科技领域、商业、艺术业等。典型职业有：软件设计师、主持人、演员、摄影家、公关、建筑师、销售、健身教练等。`,
         getCpInterpretation: (userAnimal, cpAnimal) => `【${userAnimal}】和【${cpAnimal}】的组合，是舞台上的最佳拍档，是快乐能量的加倍放大器。作为【${userAnimal}】，你活泼、聪明，是天生的社交明星和气氛制造者，你的世界不能没有互动和欢笑。而【${cpAnimal}】同样热爱群体生活，它的热情和忠诚能为你提供最坚实的支持。它会是你最忠实的观众，为你每一次精彩的“表演”鼓掌喝彩；它也是你最可靠的搭档，能完美接住你的每一个梗。你们都从与人的连接中获得能量，因此你们的社交生活会异常丰富多彩。你们的组合，能让任何一个派对的气氛达到顶点，你们的关系充满了无尽的欢声笑语和新鲜感。`
     },
     "章鱼": { 
         vector: { DOM: 2, STR: 5, COM: 0, SOL: 5, AGI: 4, SEC: 1, AES: 1 }, 
-        desc: "你是深海的智者与伪装大师。你拥有惊人的智慧和解决问题的能力，身体的每一次变形都是一次策略的展现。你习惯于独立思考和行动，在复杂环境中展现出极强的适应性和创造力。你是真正的“多面手”。", 
+        desc: `章鱼型人格坚毅、忠诚、富有理想，始终守护着自己的内心世界和底线，通常会在认真思考之后再实施自己的想法，很少会鲁莽行事。你有着很强的责任感和使命感，独立自主、坚定执着，对自己信仰的事业尽职尽责。性格弱势在于很难和他人建立亲密的关系，你属于比较慢热、谨慎的类型，非常需要隐私且十分理想化，这让你很难做与自己价值观相冲突的事。
+        
+### 💪🏻性格优势
+章鱼型人格在「洞察力」和「信念感」方面具有很强的性格优势。你有着雄心勃勃的梦想和很强的个人信念，不会浑浑噩噩度日，而是会拼尽全力地追逐梦想。再加上出色的洞察力和判断力，让你能够通过表象看到事物的本质，并很好地处理问题。
+        
+### ❤️感情生活
+在恋爱关系中，章鱼型人格始终能展现细心周到、热情温柔的一面，乐于和自己的伴侣分享内心的想法和感受，并期待着一同享受甜蜜的时光。对你而言，一个理解你、肯定你、能够温暖你的伴侣最为合适，你们将能够互相聆听、互相分享、互相激励，一起成为更好的人。
+        
+### 💼职业发展
+章鱼型人格不仅关心眼前的工作，更有长远的职业规划，你善于安排事物，能够用坚定的信念、强大的意志力执行自己的计划，直至任务完成。适合有规划、有挑战的工作。适合你的工作领域有：教育业、商业、文化与艺术领域、管理业、政治领域等。典型职业有：图书管理员、心理咨询人员、室内设计师、营养学家、商品策划、人力资源经理、社工等。`,
         getCpInterpretation: (userAnimal, cpAnimal) => `【${userAnimal}】和【${cpAnimal}】的组合，是两种顶级智慧的碰撞与融合。作为【${userAnimal}】，你拥有超强的适应能力和解决问题的天赋，习惯于用多变的策略应对复杂的世界。你需要一个能理解你复杂内在，并能匹配你智力水平的伙伴。而【${cpAnimal}】就是这样一个存在。它同样拥有极高的智商和洞察力，能看穿你的每一次“伪装”，并欣赏你解决问题时的创造力。你们的相处，就像是两位顶级特工的合作，充满了对彼此能力的信任和欣赏。你们不需要过多的言语，就能在复杂的局面中打出精妙的配合。你们共同享受挑战带来的乐趣，将解决难题视为最高级的浪漫。`
     },
     "鲨鱼": { 
         vector: { DOM: 5, STR: 3, COM: 0, SOL: 5, AGI: 3, SEC: 0, AES: 0 }, 
-        desc: "你是高效的目标追逐者，专注、直接、充满力量。你一旦锁定目标，便会心无旁骛地前进。你习惯独来独往，不需要复杂的社交关系。你的生存法则简单而纯粹：不断前进，永不停止。", 
+        desc: `鲨鱼塑的你如同海洋中的终极猎手，冷冽外表下藏着精密运转的生存逻辑。你用「目标导向」的思维解构世界，总能穿透表象直抵核心。你不需要虚浮的社交辞令，沉默的观察比任何语言都更具穿透力，每一次决策都是能量最优化配置的产物。
+        
+### 💪🏻性格优势
+「战略力」与「执行力」是鲨鱼塑最致命的组合。你像移动的军事沙盘，能将复杂局势拆解为可执行的战术模块。面对挑战时，你启动「狩猎模式」，瞬间评估风险收益比。这种特质让你在商业谈判中化身「规则破坏者」，用对手意想不到的路径直击要害。
+
+### ❤️感情生活
+在亲密关系里，你是「冰山下的火山」。你倾向于直球式进攻，用行动代替语言；你会沉默地守护，在对方需要时准时出现；你用「领海意识」构筑关系防线，既不容许他人越界，也拒绝自我妥协。
+
+### 💼职业发展
+鲨鱼塑的「掠夺性智慧」，让你在需要破局与制衡的领域所向披靡。适合的领域包括：风险投资、并购顾问、特战教官、人工智能伦理学家等。`,
         getCpInterpretation: (userAnimal, cpAnimal) => `【${userAnimal}】和【${cpAnimal}】的组合，是两个强大独立个体的相互致敬。作为【${userAnimal}】，你的世界观极其纯粹：锁定目标，然后前进。你不需要、也不喜欢被复杂的情感和社交关系所束缚。你需要的是一片可以让你自由驰骋的广阔天地。而【${cpAnimal}】恰好能为你提供这样的空间。它同样拥有强大的意志和宏大的格局，它能深刻理解你对目标的执着，并尊重你的孤独。它不会试图改变你的航向，更不会成为你的拖累。你们的关系更像是两个各自领域的霸主，在顶峰相遇时的惺惺相惜。你们互不打扰，却又能在精神上给予对方最高级别的认可和尊重，这是一种强者之间独有的、深刻的联结。`
     },
     "海豚": { 
         vector: { DOM: 3, STR: 4, COM: 5, SOL: 0, AGI: 4, SEC: 1, AES: 1 }, 
-        desc: "你是智慧的嬉戏者与团队合作的典范。你拥有高度发达的大脑和复杂的社会行为，擅长通过合作解决问题。你充满玩乐精神，将生活视为一场有趣的游戏。你的快乐来源于与同伴的协作和探索世界的无穷乐趣。", 
+        desc: `海豚型人格具备奉献、敏感、富有爱心的性格特质，重视稳定的人际关系，乐于倾听且愿意向身处困境的人们伸出援手，周围人也通常会用“体贴、可信赖”来形容你。你能够很好地集中精神，且做事有条理，会一丝不苟地完成手中的任务。最大的挑战是直言不讳地表达自己的利益和感受，因为强烈的利他主义，你往往会更关注其他人的想法。
+        
+### 💪🏻性格优势
+你天生具有的关怀能力和强烈的责任感，能够让你成为其他人的保护者和指导者。除此之外，「值得信赖」也是你的一大标签，你善于观察细节，会尽可能正确地完成手中的工作。强大的分析和合作能力，能让你成为完美的拍档。
+        
+### ❤️感情生活
+在一段关系中，海豚型人格有着强烈的感情，展现出热情、温厚、宽容的一面，对于感情十分投入，往往会将恋人的需要置于自己的需要之上，能敏感地捕捉到对方的情绪变化。这也会导致你忽视自己的需求、隐藏自己的感受。你对「安全感」的需求也更大，非常看重承诺和忠诚。
+        
+### 💼职业发展
+海豚型人格忠诚、勤奋，善于理解沟通、团队合作，能够从帮助他人中获得成就感。适合你的工作领域有：教育、服务行业、设计业、卫生保健业、艺术业、心理健康业、商业等。典型职业有：教师、心理学家、摄影师、护理人员、航空服务人员、记者、酒店经理、餐厅管理者等。`,
         getCpInterpretation: (userAnimal, cpAnimal) => `【${userAnimal}】和【${cpAnimal}】的组合，是智慧、快乐和团队精神的完美体现。作为【${userAnimal}】，你聪明、富有合作精神，并且把生活看作一场有趣的游戏。你热衷于和同伴一起探索世界，解决问题。而【${cpAnimal}】同样是一个群体主义者，它的热情和忠诚使它成为最可靠的队友。你们能迅速形成高效的默契，无论是在工作中还是生活中，都能通过合作取得出色的成果。你们都享受在群体中获得的快乐和成就感。你们的关系，充满了积极向上的能量，就像一支配合无间的探险队，总是在共同探索新大陆，分享胜利的喜悦。你们的生活永远不会缺少伙伴和乐趣。`
     },
     "浣熊": { 
         vector: { DOM: 1, STR: 4, COM: 2, SOL: 3, AGI: 5, SEC: 2, AES: 0 }, 
-        desc: "你是机灵的都市探险家，总能找到解决问题的“歪路子”。你好奇心极强，动手能力超群，为了达成目的可以不择手段（通常是为了吃的）。你非常灵活，总能在人类制定的规则中找到自己的生存空间。", 
+        desc: `你是机灵的都市探险家，总能找到解决问题的“歪路子”。你好奇心极强，动手能力超群，聪明灵慧、风趣友善，具有极强的人格魅力，善于处理矛盾和分歧。在恋爱关系中往往能让相处的甜蜜时光成为一种享受。当你感到乏味时，会果断地从一段关系中脱离开，不会拖泥带水。
+        
+### 💪🏻性格优势
+你最大的智慧便是非常明白自己该做什么、想要什么，有很强的适应能力、思考能力，善于处理、分析、归纳总结手中的任务，也愿意冒险和尝试新事物。你懂得如何成为更好的自己，也知道怎样能生活得更有趣、更具活力，这份智慧难能可贵。
+        
+### ❤️感情生活
+你是体贴、稳重、值得依靠的恋人，你能发自内心地分享对生活的热情，享受浪漫和有趣的时光，也乐于聆听恋人的烦恼。比起虚无缥缈的未来，你更多的是关注眼下二人的状态。对你来说，强迫做出承诺或不停质疑你的感情，会让你感到压抑和痛苦。
+        
+### 💼职业发展
+你是不折不扣的实干家，会积极地采取行动解决眼前的问题，亲身感受和练习才是学习新事物的法宝。适合你的工作领域有：商业、服务业、娱乐业、企业管理、刑侦、技术领域等。典型职业有：房地产经纪人、主持人、电器工程师、管理顾问、教师、园艺设计等。`,
         getCpInterpretation: (userAnimal, cpAnimal) => `【${userAnimal}】和【${cpAnimal}】的组合，是“捣蛋鬼”与“生活委员”的欢乐日常。作为【${userAnimal}】，你机智、灵活，动手能力强，总能发现规则的漏洞并加以利用，为平淡的生活增添无数小插曲。而【${cpAnimal}】则是一个热爱构筑舒适小窝的生活家，它擅长整理和收纳。你们的日常就是：你在外面“惹是生非”，带回各种奇奇怪怪的“战利品”，而它则跟在你身后，一边数落你，一边开心地把这些东西归置到你们的家里。你负责制造惊喜（和麻烦），它负责维持家的温馨和秩序。你让它的生活不再沉闷，它让你的冒险有了坚实的后方。你们的关系充满了烟火气和无可奈何又彼此珍视的宠溺。`
     },
     "猫鼬": { 
         vector: { DOM: 2, STR: 3, COM: 5, SOL: 1, AGI: 3, SEC: 5, AES: 0 }, 
-        desc: "你是警惕的哨兵与家庭的守护者。你对集体有着极强的归属感和责任心，时刻为家人的安全站岗放哨。你们的生存依赖于高效的团队协作和分工。你的勇敢不是为了个人，而是为了整个族群的安危。", 
+        desc: `你是警惕的哨兵与家庭的守护者。你对集体有着极强的归属感和责任心，时刻为家人的安全站岗放哨。你们的生存依赖于高效的团队协作和分工。你严谨、客观、富有智慧，有很强的集中力和条理性，讲求实际和逻辑，高标准要求自己且追求完美。弱点在于过于传统和注重规则，有时会出现不愿意尝试、接受新的观点和想法的情况。
+        
+### 💪🏻性格优势
+「判断力」、「条理性」是猫鼬型人格最闪闪发光的性格特质，你对事物有着很强的记忆力和判断力，尤其是在处理细节方面，总能做到一丝不苟、细致周到，并能准确表达自己的想法，提供具有建设性的意见。这让你能在从事检查、核对、管理等工作时发挥巨大的才能。
+        
+### ❤️感情生活
+在恋爱中，猫鼬型人格往往会展现出忠贞、诚实、稳重的一面，重视承诺、诚实守信，可以让恋人充分地依赖。当你和某人建立亲密的关系时，你会尽一切可能兑现你的誓言，尽所能保持长期的关系，并让对方感受到踏实，被呵护的感觉。可以说，你是非常出色且值得信任的恋人。
+        
+### 💼职业发展
+猫鼬塑的你总能一丝不苟地完成任务，认真专注地对待具体问题，不喜欢打破规则，也乐于遵循确定的日常安排，很善于处理事实和细节。适合你的工作领域有：商业、金融业、物流业、服务业、教育业、法律领域、技术领域等。典型职业有：会计、审计员、图书管理员、律师、机械师、信贷分析员、药剂师等。`,
         getCpInterpretation: (userAnimal, cpAnimal) => `【${userAnimal}】和【${cpAnimal}】的组合，是两种不同守护方式的有力结合。作为【${userAnimal}】，你的责任感和警惕性极强，习惯于为集体站岗放哨，确保所有成员的安全。你的勇敢是为了守护家园。而【${cpAnimal}】的守护方式则更为内敛和强大，它通过自身的力量构建一个坚实的物理和心理屏障。你们都将“家”的安危置于首位，拥有共同的最高价值观。你负责外围的警戒和信息的互通，它负责核心的防御和力量的支撑。你们的组合构建了一道双重保险，让你们共同的家园固若金汤。你们之间的爱，更多地体现在无需言说的默契和共同抵御外敌的行动中，是一种极其可靠和充满责任感的联结。`
     }
 };
