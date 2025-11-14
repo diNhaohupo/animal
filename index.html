@@ -166,7 +166,7 @@
             font-size: 1.05em;
         }
 
-        .start-button, .restart-button, .browse-button, .back-button, #verify-btn, #purchase-btn {
+        .start-button, .restart-button, .browse-button, .back-button, #verify-btn {
             display: block;
             width: 220px;
             margin: 30px auto 0;
@@ -198,7 +198,7 @@
             background-color: rgba(107, 70, 193, 0.05);
         }
 
-        .start-button::after, .restart-button::after, .browse-button::after, #verify-btn::after, #purchase-btn::after {
+        .start-button::after, .restart-button::after, .browse-button::after, #verify-btn::after {
             content: '';
             position: absolute;
             top: -50%;
@@ -211,12 +211,12 @@
             z-index: -1;
         }
 
-        .start-button:hover, .restart-button:hover, .browse-button:hover, #verify-btn:hover, #purchase-btn:hover {
+        .start-button:hover, .restart-button:hover, .browse-button:hover, #verify-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(107, 70, 193, 0.3);
         }
 
-        .start-button:hover::after, .restart-button:hover::after, .browse-button:hover::after, #verify-btn:hover::after, #purchase-btn:hover::after {
+        .start-button:hover::after, .restart-button:hover::after, .browse-button:hover::after, #verify-btn:hover::after {
             left: 120%;
         }
 
@@ -330,10 +330,6 @@
             100% { transform: translateX(700px); }
         }
         
-        .interlude-screen {
-            display: none;
-        }
-
         #result-screen {
             text-align: center;
             padding: 50px 40px;
@@ -384,18 +380,6 @@
             display: none;
         }
         
-        .fun-question {
-            color: #553c9a;
-            position: relative;
-            padding-left: 30px;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-            100% { transform: translateX(0); }
-        }
-
         .screen-footer {
             text-align: center;
             font-size: 0.9em;
@@ -404,7 +388,6 @@
             opacity: 0.7;
         }
 
-        /* 加载动画 */
         .loader {
             width: 48px;
             height: 48px;
@@ -422,7 +405,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* 动物图鉴样式 */
         #animal-guide {
             max-height: 600px;
             overflow-y: auto;
@@ -451,12 +433,6 @@
         .animal-card p {
             margin-bottom: 0;
             font-size: 1em;
-        }
-
-        .animal-card:hover h3 {
-            color: var(--accent-light);
-            transform: translateX(5px);
-            transition: all 0.3s ease;
         }
 
         @keyframes bgFloat {
@@ -488,62 +464,31 @@
             100% { transform: translateY(-50%) scale(1); opacity: 1; }
         }
 
-        /* 验证码样式 */
-        #captcha-screen {
+        /* 验证屏幕样式 */
+        #coupon-screen {
             text-align: center;
         }
         
-        #captcha-image {
-            width: 200px;
-            height: 80px;
-            background-color: #f0f0f0;
-            margin: 20px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            letter-spacing: 8px;
-            border-radius: 8px;
-            user-select: none;
-        }
-        
-        #captcha-input {
-            width: 200px;
+        #coupon-input {
+            width: 250px;
             padding: 12px;
-            margin: 0 auto 20px;
+            margin: 20px auto 20px;
             display: block;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             font-size: 16px;
+            text-align: center;
+            letter-spacing: 2px;
         }
         
-        #captcha-error {
+        #coupon-error {
             color: #e53e3e;
             text-align: center;
             margin-top: 15px;
-            display: none;
+            min-height: 1.2em; /* 占位防止跳动 */
+            display: block;
         }
 
-        /* 购买提示样式 */
-        #purchase-screen {
-            text-align: center;
-        }
-        
-        .purchase-info {
-            background-color: rgba(247, 250, 252, 0.8);
-            border-radius: 16px;
-            border: 1px solid rgba(226, 232, 240, 0.8);
-            padding: 25px;
-            margin-bottom: 30px;
-        }
-        
-        .price-tag {
-            font-size: 1.8em;
-            color: var(--accent-color);
-            font-weight: bold;
-            margin: 15px 0;
-        }
-        
         /* 结果可视化样式 */
         #result-stats {
             margin: 30px auto;
@@ -605,7 +550,6 @@
             font-weight: 500;
         }
         
-        /* [UI美化] CP匹配部分样式 */
         #cp-match-section {
             margin: 40px auto 0;
             max-width: 90%;
@@ -633,7 +577,7 @@
         #cp-match-section .cp-title svg {
              width: 24px;
              height: 24px;
-             fill: #c084fc; /* a soft purple */
+             fill: #c084fc;
              animation: heartbeat 1.5s ease-in-out infinite;
         }
 
@@ -685,28 +629,12 @@
                 font-size: 1.15em; 
                 padding-left: 3px;
             }
-            .option-item {
-                padding: 16px 20px;
-            }
-            .interlude-screen {
-                padding: 40px 20px;
-            }
-            #result-screen {
-                padding: 30px 20px;
-            }
-            #result-screen h3 {
-                font-size: 1.8em;
-            }
-            .button-group {
-                flex-direction: column;
-                align-items: center;
-            }
-            .stats-chart {
-                height: 160px;
-            }
-            #cp-match-section {
-                padding: 20px;
-            }
+            .option-item { padding: 16px 20px; }
+            #result-screen { padding: 30px 20px; }
+            #result-screen h3 { font-size: 1.8em; }
+            .button-group { flex-direction: column; align-items: center; }
+            .stats-chart { height: 160px; }
+            #cp-match-section { padding: 20px; }
         }
 
     </style>
@@ -714,42 +642,27 @@
 <body>
 
     <div id="quiz-container">
-        <!-- 购买提示屏幕 -->
-        <div id="purchase-screen" class="screen">
+        <!-- 卡券验证屏幕 -->
+        <div id="coupon-screen" class="screen">
             <h2>解锁动物塑测试</h2>
-            <div class="purchase-info">
-                <p>完成购买后，您将获得一个动态验证码，用于解锁完整测试。</p>
-                <p>测试将分析您的性格特质，并匹配最适合您的动物塑形象。</p>
-                <div class="price-tag">¥9.90</div>
-                <p>包含完整测试+详细分析报告+动物塑图鉴</p>
-            </div>
-            <button id="purchase-btn">立即购买</button>
-            <div class="screen-footer">安全支付 · 即时解锁</div>
-        </div>
-
-        <!-- 验证码屏幕 -->
-        <div id="captcha-screen" class="screen hidden">
-            <h2>输入动态验证码</h2>
-            <p>请输入您购买后获得的动态验证码</p>
-            <input type="text" id="captcha-input" placeholder="请输入验证码">
+            <p>请输入您的专属卡券密码以开始测试。</p>
+            <input type="text" id="coupon-input" placeholder="输入卡券密码" autocomplete="off">
             <button id="verify-btn">验证并开始测试</button>
-            <p id="captcha-error">验证码错误或已过期，请重新输入</p>
+            <p id="coupon-error"></p>
+            <div class="screen-footer">珊瑚鲤鱼 · 动物塑</div>
         </div>
 
-        <!-- Start Screen -->
+        <!-- 开始屏幕 -->
         <div id="start-screen" class="screen hidden">
             <h1>动物塑</h1>
             <h2>你的动物塑形象</h2>
             <p class="start-description">预警：个人能力有限，测试仅供参考。</p>
-            <p style="text-align: center; color: var(--secondary-text); margin-bottom: 15px;">由 珊瑚鲤鱼 制作</p>
-            <a href="https://xhslink.com/m/4SkEFPQuk0y" target="_blank" style="display: block; width: 180px; margin: 0 auto 25px; padding: 12px 0; background-color: transparent; border: 1px solid var(--accent-color); color: var(--accent-color); border-radius: 50px; text-align: center; text-decoration: none; font-size: 1em; transition: all 0.3s ease;">
-            前往我的主页
-            </a>
+            <p style="text-align: center; color: var(--secondary-text); margin-bottom: 25px;">由 珊瑚鲤鱼 制作</p>
             <button id="start-btn" class="start-button">开始测试</button>
             <div class="screen-footer">动物塑</div>
         </div>
 
-        <!-- Quiz Screen -->
+        <!-- 答题屏幕 -->
         <div id="quiz-screen" class="screen hidden">
             <button id="back-btn" class="back-button">← 上一题</button>
             <div id="progress-bar-container">
@@ -760,15 +673,7 @@
             <div class="screen-footer">问题 <span id="question-counter">1</span>/60</div>
         </div>
         
-        <!-- Interlude Screen -->
-        <div id="interlude-screen" class="screen hidden">
-            <h2 id="interlude-title"></h2>
-            <p id="interlude-text"></p>
-            <button class="continue-button"></button>
-            <div class="screen-footer"></div>
-        </div>
-
-        <!-- Result Screen -->
+        <!-- 结果屏幕 -->
         <div id="result-screen" class="screen hidden">
             <h2>你的动物塑原型是：</h2>
             <h3 id="result-animal"></h3>
@@ -802,7 +707,7 @@
             <div class="screen-footer">动物塑解析 · 完成</div>
         </div>
 
-        <!-- Animal Guide Screen -->
+        <!-- 动物图鉴屏幕 -->
         <div id="animal-guide-screen" class="screen hidden">
             <button id="back-to-result-btn" class="back-button">← 返回结果</button>
             <h2>动物塑图鉴</h2>
@@ -815,12 +720,11 @@
         <div id="loading-screen" class="screen hidden">
             <div style="text-align: center;">
                 <div class="loader"></div>
-                <p>正在解析你的动物塑形象</p>
+                <p>正在解析你的动物塑形象...</p>
             </div>
         </div>
     </div>
     
-    <!-- 引入外部数据文件 -->
     <script src="data.js"></script>
     
     <script>
@@ -828,11 +732,9 @@
     const startScreen = document.getElementById('start-screen');
     const quizScreen = document.getElementById('quiz-screen');
     const resultScreen = document.getElementById('result-screen');
-    const interludeScreen = document.getElementById('interlude-screen');
     const loadingScreen = document.getElementById('loading-screen');
     const animalGuideScreen = document.getElementById('animal-guide-screen');
-    const captchaScreen = document.getElementById('captcha-screen');
-    const purchaseScreen = document.getElementById('purchase-screen');
+    const couponScreen = document.getElementById('coupon-screen');
 
     const startBtn = document.getElementById('start-btn');
     const restartBtn = document.getElementById('restart-btn');
@@ -840,9 +742,8 @@
     const browseBtn = document.getElementById('browse-btn');
     const backToResultBtn = document.getElementById('back-to-result-btn');
     const verifyBtn = document.getElementById('verify-btn');
-    const purchaseBtn = document.getElementById('purchase-btn');
-    const captchaInput = document.getElementById('captcha-input');
-    const captchaError = document.getElementById('captcha-error');
+    const couponInput = document.getElementById('coupon-input');
+    const couponError = document.getElementById('coupon-error');
     
     const questionTitle = document.getElementById('question-title');
     const optionList = document.getElementById('option-list');
@@ -856,18 +757,17 @@
     const cpReason = document.getElementById('cp-reason');
     const cpAnimal = document.getElementById('cp-animal');
 
-
     const dimensionKeys = ["DOM", "STR", "COM", "SOL", "AGI", "SEC", "AES"];
     
-    let currentQuestionIndex = 0;
-    let scores = {};
-    let selectedOptions = [];
-    let isProcessing = false;
-    let validCaptchaCodes = [];
+    // 使用 data.js 中的核心变量
+    // let currentQuestionIndex, scores, selectedOptions, isProcessing;
 
-    function initScores() {
+    function initQuizState() {
+        currentQuestionIndex = 0;
         scores = {};
         dimensionKeys.forEach(key => scores[key] = 0);
+        selectedOptions = [];
+        isProcessing = false;
     }
     
     function initAnimalGuide() {
@@ -887,11 +787,9 @@
         if (isProcessing) return;
         isProcessing = true;
         
-        currentQuestionIndex = 0;
-        initScores();
-        selectedOptions = [];
+        initQuizState();
         
-        const screensToHide = [startScreen, resultScreen, interludeScreen, animalGuideScreen, loadingScreen, captchaScreen, purchaseScreen];
+        const screensToHide = [startScreen, resultScreen, animalGuideScreen, loadingScreen, couponScreen];
         screensToHide.forEach(screen => screen.classList.add('hidden'));
         
         quizScreen.classList.remove('hidden');
@@ -991,29 +889,31 @@
         resultScreen.classList.remove('hidden');
     }
     
-    function simulatePurchase() {
-        const newCaptcha = Math.random().toString(36).substring(2, 8).toUpperCase();
-        validCaptchaCodes.push({ code: newCaptcha, expires: Date.now() + 10 * 60 * 1000 });
-        
-        purchaseScreen.classList.add('hidden');
-        captchaScreen.classList.remove('hidden');
-        alert(`购买成功！您的动态验证码是：${newCaptcha}\n请在10分钟内使用`);
-    }
+    function verifyCoupon() {
+        const inputCode = couponInput.value.toUpperCase().trim();
+        couponError.textContent = ''; // 清空错误信息
 
-    function verifyCaptcha() {
-        const input = captchaInput.value.toUpperCase().trim();
-        const now = Date.now();
-        validCaptchaCodes = validCaptchaCodes.filter(item => item.expires > now);
-        const isValid = validCaptchaCodes.some(item => item.code === input);
+        if (!inputCode) {
+            couponError.textContent = '请输入卡券密码。';
+            return;
+        }
+
+        // 使用 data.js 中的 validateCoupon 函数
+        const result = validateCoupon(inputCode);
         
-        if (isValid) {
-            validCaptchaCodes = validCaptchaCodes.filter(item => item.code !== input);
-            captchaScreen.classList.add('hidden');
+        if (result.success) {
+            // 找到对应的卡券并标记为已使用
+            const coupon = validCouponCodes.find(c => c.code === inputCode);
+            if (coupon) {
+                coupon.used = true;
+            }
+            
+            couponScreen.classList.add('hidden');
             startScreen.classList.remove('hidden');
-            captchaError.style.display = 'none';
-            captchaInput.value = '';
+            couponError.textContent = '';
+            couponInput.value = '';
         } else {
-            captchaError.style.display = 'block';
+            couponError.textContent = result.message || '卡券验证失败，请重试。';
         }
     }
 
@@ -1023,9 +923,8 @@
         const stats = {};
         dimensionKeys.forEach(key => {
             const value = finalScores[key] || 0;
-            // A more balanced normalization
             const percentage = maxPossibleScore > 0 ? Math.round((value / maxPossibleScore) * 100 * dimensionKeys.length * 0.7) : 0;
-            stats[key] = Math.min(100, Math.max(0, percentage)); // Clamp between 0 and 100
+            stats[key] = Math.min(100, Math.max(0, percentage)); // 限制在 0-100
         });
         
         dimensionKeys.forEach(key => {
@@ -1108,7 +1007,6 @@
         
         setTimeout(() => {
             const userTotalScore = dimensionKeys.reduce((sum, key) => sum + scores[key], 0);
-            const ANIMAL_ARCHETYPE_TOTAL = 20; // Constant from data file
             const normalizedScores = {};
             
             if (userTotalScore === 0) {
@@ -1146,7 +1044,6 @@
             const bestCPName = findBestCP(bestMatchAnimal, userVector);
             const cpData = animalArchetypes[bestCPName];
             
-            // 使用新的函数生成解读
             cpReason.textContent = cpData.getCpInterpretation(bestMatchAnimal, bestCPName);
             cpAnimal.textContent = `【 ${bestCPName} 】`;
 
@@ -1156,31 +1053,28 @@
         }, 1500);
     }
 
-    // Event listeners
+    // 事件监听器
     startBtn.addEventListener('click', startQuiz);
     restartBtn.addEventListener('click', startQuiz);
     backBtn.addEventListener('click', goBack);
     browseBtn.addEventListener('click', showAllAnimals);
     backToResultBtn.addEventListener('click', backToResult);
-    verifyBtn.addEventListener('click', verifyCaptcha);
-    purchaseBtn.addEventListener('click', simulatePurchase);
+    verifyBtn.addEventListener('click', verifyCoupon);
     
-    captchaInput.addEventListener('keypress', function(e) {
+    couponInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
-            verifyCaptcha();
+            verifyCoupon();
         }
     });
 
-    // Initialization
+    // 初始化
     window.addEventListener('DOMContentLoaded', () => {
-        // Check if data is loaded
-        if (typeof quizData === 'undefined' || typeof scoreMap === 'undefined' || typeof animalArchetypes === 'undefined') {
+        if (typeof quizData === 'undefined' || typeof scoreMap === 'undefined' || typeof animalArchetypes === 'undefined' || typeof validCouponCodes === 'undefined') {
             document.body.innerHTML = '<div style="padding: 40px; text-align: center; color: red;">错误：未能加载核心数据文件 (data.js)。请确保该文件与HTML文件在同一目录下。</div>';
             return;
         }
-        initScores();
+        initQuizState();
         initAnimalGuide();
-        document.getElementById('quiz-container').style.transform = 'perspective(1000px) rotateX(0deg)';
     });
     </script>
 </body>
