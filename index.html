@@ -6,185 +6,45 @@
     <title>测一测你的动物塑</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@500;700&display=swap');
-
-        :root {
-            --bg-color: #f8f9fc;
-            --primary-text: #2d3748;
-            --secondary-text: #4a5568;
-            --accent-color: #6b46c1;
-            --accent-light: #805ad5;
-            --card-bg: #ffffff;
-            --card-bg-light: #f7fafc;
-            --border-color: #e2e8f0;
-            --hover-bg: #f6f6ff;
-            --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-            --shadow-glow: 0 0 15px rgba(107, 70, 193, 0.15);
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: 'Noto Sans SC', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--primary-text);
-            min-height: 100vh;
-            padding: 20px;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(107, 70, 193, 0.05) 0%, transparent 20%),
-                radial-gradient(circle at 90% 70%, rgba(107, 70, 193, 0.03) 0%, transparent 30%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow-x: hidden;
-            transition: background-color 1s ease;
-        }
-
-        #quiz-container {
-            width: 100%;
-            max-width: 700px;
-            background-color: var(--card-bg);
-            border-radius: 24px;
-            box-shadow: var(--shadow), var(--shadow-glow);
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-        }
-
-        .screen {
-            padding: 40px;
-            animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            min-height: 450px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); filter: blur(5px); }
-            to { opacity: 1; transform: translateY(0); filter: blur(0); }
-        }
-
-        h1, h2, h3 { color: var(--primary-text); margin-bottom: 16px; position: relative; }
-        
-        h1 { 
-            font-family: 'Noto Serif SC', serif;
-            font-size: 2.2em; 
-            text-align: center;
-            background: linear-gradient(90deg, var(--accent-color), var(--primary-text));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 20px;
-        }
-
-        h2 { 
-            font-size: 1.6em; 
-            color: var(--accent-color); 
-            margin-top: 0;
-            text-align: center;
-            font-weight: 500;
-        }
-
-        h3.question-title { 
-            text-align: left; 
-            font-size: 1.3em; 
-            margin-bottom: 30px; 
-            line-height: 1.8;
-            padding-left: 4px;
-            border-left: 3px solid var(--accent-color);
-        }
-
-        p { color: var(--secondary-text); line-height: 1.8; margin-bottom: 30px; font-size: 1.05em; }
-
-        .start-button, .restart-button, .browse-button, .back-button, #verify-btn {
-            display: block;
-            width: 220px;
-            margin: 30px auto 0;
-            padding: 16px 20px;
-            background: linear-gradient(45deg, var(--accent-color), var(--accent-light));
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1em;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(107, 70, 193, 0.2);
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-        .start-button:disabled, .restart-button:disabled, .browse-button:disabled, .back-button:disabled, #verify-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        .back-button {
-            width: auto;
-            padding: 10px 20px;
-            margin: 0 0 20px 0;
-            background: transparent;
-            color: var(--accent-color);
-            border: 1px solid var(--accent-color);
-        }
-
-        .button-group { display: flex; justify-content: center; gap: 15px; margin-top: 30px; }
-
-        .option-list { list-style: none; padding: 0; margin: 0 0 20px 0; flex-grow: 1; }
-
-        .option-item {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            margin-bottom: 16px;
-            padding: 20px 25px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .option-item:hover { background-color: var(--hover-bg); border-color: var(--accent-color); }
-        .option-item.selected { background-color: rgba(107, 70, 193, 0.08); border-color: var(--accent-light); }
-
-        #progress-bar-container { width: 100%; background-color: rgba(226, 232, 240, 0.5); height: 8px; border-radius: 4px; margin-bottom: 30px; }
-        #progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, var(--accent-color), var(--accent-light)); transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-
-        .hidden { display: none; }
-        
-        .screen-footer { text-align: center; font-size: 0.9em; color: var(--secondary-text); margin-top: 40px; opacity: 0.7; }
-        
-        .loader { width: 48px; height: 48px; border: 3px solid var(--accent-color); border-bottom-color: transparent; border-radius: 50%; display: inline-block; animation: rotation 1s linear infinite; margin: 20px auto; }
-        @keyframes rotation { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        #animal-guide { max-height: 600px; overflow-y: auto; padding-right: 15px; }
-
-        #coupon-screen { text-align: center; }
-        #coupon-input { width: 250px; padding: 12px; margin: 20px auto 20px; display: block; border: 1px solid var(--border-color); border-radius: 8px; font-size: 16px; text-align: center; letter-spacing: 2px; }
-        #coupon-error { color: #e53e3e; text-align: center; margin-top: 15px; min-height: 1.2em; display: block; }
-        
-        /* 结果页样式 */
-        #result-screen p, #animal-guide-screen .animal-card p { white-space: pre-wrap; }
-        #result-screen p h3, #animal-guide-screen .animal-card p h3 {
-            font-size: 1.1em;
-            color: var(--accent-color);
-            margin-top: 20px;
-            margin-bottom: 10px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        @media (max-width: 600px) {
-            body { padding: 10px; }
-            .screen { padding: 25px 20px; }
-            h1 { font-size: 1.8em; }
-            h2 { font-size: 1.4em; }
-            .button-group { flex-direction: column; align-items: center; }
-        }
+        :root{--bg-color:#f8f9fc;--primary-text:#2d3748;--secondary-text:#4a5568;--accent-color:#6b46c1;--accent-light:#805ad5;--card-bg:#fff;--border-color:#e2e8f0;--hover-bg:#f6f6ff;--shadow:0 8px 30px rgba(0,0,0,.08)}
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:'Noto Sans SC',sans-serif;background-color:var(--bg-color);color:var(--primary-text);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:center}
+        #quiz-container{width:100%;max-width:700px;background-color:var(--card-bg);border-radius:24px;box-shadow:var(--shadow);overflow:hidden;border:1px solid var(--border-color)}
+        .screen{padding:40px;animation:fadeIn .8s cubic-bezier(.4,0,.2,1);min-height:450px;display:flex;flex-direction:column}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        h1,h2,h3{color:var(--primary-text);margin-bottom:16px}
+        h1{font-family:'Noto Serif SC',serif;font-size:2.2em;text-align:center;background:linear-gradient(90deg,var(--accent-color),var(--primary-text));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:20px}
+        h2{font-size:1.6em;color:var(--accent-color);text-align:center;font-weight:500}
+        h3.question-title{font-size:1.3em;margin-bottom:30px;line-height:1.8}
+        p{color:var(--secondary-text);line-height:1.8;margin-bottom:30px;font-size:1.05em}
+        .start-button,.restart-button,.browse-button,.back-button,#verify-btn{display:block;width:220px;margin:30px auto 0;padding:16px 20px;background:linear-gradient(45deg,var(--accent-color),var(--accent-light));color:#fff;border:none;border-radius:50px;font-size:1.1em;font-weight:500;cursor:pointer;transition:all .3s ease}
+        .start-button:disabled,#verify-btn:disabled{background:#ccc;cursor:not-allowed}
+        .back-button{width:auto;padding:10px 20px;margin:0 0 20px 0;background:0 0;color:var(--accent-color);border:1px solid var(--accent-color)}
+        .button-group{display:flex;justify-content:center;gap:15px;margin-top:30px}
+        .option-list{list-style:none;padding:0;margin:0;flex-grow:1}
+        .option-item{background-color:var(--card-bg);border:1px solid var(--border-color);border-radius:16px;margin-bottom:16px;padding:20px 25px;cursor:pointer;transition:all .3s ease}
+        .option-item:hover{background-color:var(--hover-bg);border-color:var(--accent-color)}
+        .option-item.selected{background-color:rgba(107,70,193,.08);border-color:var(--accent-light)}
+        #progress-bar-container{width:100%;background-color:#e2e8f0;height:8px;border-radius:4px;margin-bottom:30px}
+        #progress-bar{width:0;height:100%;background:var(--accent-color);transition:width .6s ease}
+        .hidden{display:none}
+        .screen-footer{text-align:center;font-size:.9em;color:var(--secondary-text);margin-top:auto;padding-top:20px}
+        .loader{width:48px;height:48px;border:3px solid var(--accent-color);border-bottom-color:transparent;border-radius:50%;display:block;margin:80px auto;animation:rotation 1s linear infinite}
+        @keyframes rotation{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+        #coupon-screen{text-align:center}
+        #coupon-input{width:250px;padding:12px;margin:20px auto;display:block;border:1px solid var(--border-color);border-radius:8px;font-size:16px;text-align:center}
+        #coupon-error{color:#e53e3e;min-height:1.2em}
+        #result-screen p,#animal-guide-screen .animal-card p{white-space:pre-wrap}
+        #result-screen p h3,#animal-guide-screen .animal-card p h3{font-size:1.1em;color:var(--accent-color);margin-top:20px;margin-bottom:10px;padding-bottom:5px;border-bottom:1px solid var(--border-color)}
+        .animal-card{background-color:#f7fafc;border-radius:16px;border:1px solid #e2e8f0;padding:20px;margin-bottom:20px}
+        .animal-card h3{color:var(--accent-color)}
+        #animal-guide{max-height:600px;overflow-y:auto;padding-right:15px}
+        @media (max-width:600px){body{padding:10px}.screen{padding:25px 20px}.button-group{flex-direction:column;align-items:center}}
     </style>
 </head>
 <body>
 
     <div id="quiz-container">
-        <!-- 卡券验证屏幕 (默认显示) -->
         <div id="coupon-screen" class="screen">
             <h2>解锁动物塑测试</h2>
             <p>请输入您的专属卡券密码以开始测试。</p>
@@ -194,271 +54,169 @@
             <div class="screen-footer">珊瑚鲤鱼 · 动物塑</div>
         </div>
 
-        <!-- 开始屏幕 (默认隐藏) -->
         <div id="start-screen" class="screen hidden">
             <h1>动物塑</h1>
-            <h2>你的动物塑形象</h2>
             <p>预警：个人能力有限，测试仅供参考。</p>
-            <p style="text-align: center; color: var(--secondary-text); margin-bottom: 25px;">由 珊瑚鲤鱼 制作</p>
             <button id="start-btn" class="start-button">开始测试</button>
-            <div class="screen-footer">动物塑</div>
         </div>
 
-        <!-- 答题屏幕 (默认隐藏) -->
         <div id="quiz-screen" class="screen hidden">
             <button id="back-btn" class="back-button">← 上一题</button>
             <div id="progress-bar-container"><div id="progress-bar"></div></div>
             <h3 id="question-title" class="question-title"></h3>
             <ul id="option-list" class="option-list"></ul>
-            <div class="screen-footer">问题 <span id="question-counter">1</span>/60</div>
+            <div class="screen-footer">问题 <span id="question-counter">1</span> / 60</div>
         </div>
         
-        <!-- 结果屏幕 (默认隐藏) -->
         <div id="result-screen" class="screen hidden">
             <h2>你的动物塑原型是：</h2>
             <h3 id="result-animal"></h3>
             <p id="result-description"></p>
-            <div id="cp-match-section">
-                <!-- CP内容将动态填入 -->
-            </div>
             <div class="button-group">
                 <button id="restart-btn" class="restart-button">再测一次</button>
                 <button id="browse-btn" class="browse-button">浏览所有动物塑</button>
             </div>
         </div>
 
-        <!-- 动物图鉴屏幕 (默认隐藏) -->
         <div id="animal-guide-screen" class="screen hidden">
             <button id="back-to-result-btn" class="back-button">← 返回结果</button>
             <h2>动物塑图鉴</h2>
             <div id="animal-guide"></div>
         </div>
 
-        <!-- 加载屏幕 (默认隐藏) -->
         <div id="loading-screen" class="screen hidden">
-            <div style="text-align: center;">
-                <div class="loader"></div>
-                <p>正在解析你的动物塑形象...</p>
-            </div>
+            <div class="loader"></div>
+            <p style="text-align:center;">正在解析你的动物塑形象...</p>
         </div>
     </div>
     
     <script src="data.js"></script>
     
     <script>
-    // DOM元素
-    const startScreen = document.getElementById('start-screen');
-    const quizScreen = document.getElementById('quiz-screen');
-    const resultScreen = document.getElementById('result-screen');
-    const loadingScreen = document.getElementById('loading-screen');
-    const animalGuideScreen = document.getElementById('animal-guide-screen');
-    const couponScreen = document.getElementById('coupon-screen');
-
-    const startBtn = document.getElementById('start-btn');
-    const restartBtn = document.getElementById('restart-btn');
-    const backBtn = document.getElementById('back-btn');
-    const browseBtn = document.getElementById('browse-btn');
-    const backToResultBtn = document.getElementById('back-to-result-btn');
-    const verifyBtn = document.getElementById('verify-btn');
+    const screens = { coupon: document.getElementById('coupon-screen'), start: document.getElementById('start-screen'), quiz: document.getElementById('quiz-screen'), result: document.getElementById('result-screen'), guide: document.getElementById('animal-guide-screen'), loading: document.getElementById('loading-screen') };
     const couponInput = document.getElementById('coupon-input');
     const couponError = document.getElementById('coupon-error');
-    
     const questionTitle = document.getElementById('question-title');
     const optionList = document.getElementById('option-list');
     const progressBar = document.getElementById('progress-bar');
     const questionCounter = document.getElementById('question-counter');
     const animalGuide = document.getElementById('animal-guide');
     const resultDescription = document.getElementById('result-description');
-    
-    // 初始化函数
-    function initQuizState() {
-        currentQuestionIndex = 0;
-        scores = {};
-        dimensionKeys.forEach(key => scores[key] = 0);
-        selectedOptions = [];
-        isProcessing = false;
-    }
 
-    function formatDescription(text) {
-        return text.replace(/### (.*?)\n/g, '<h3>\$1</h3>');
-    }
+    let currentQuestionIndex = 0, selectedOptions = [], isProcessing = false;
+
+    function showScreen(screenName) { Object.values(screens).forEach(s => s.classList.add('hidden')); screens[screenName].classList.remove('hidden'); }
+    function formatDescription(text) { return text.replace(/### (.*?)\n/g, '<h3>\$1</h3>'); }
     
     function initAnimalGuide() {
         animalGuide.innerHTML = '';
         Object.keys(animalArchetypes).forEach(animal => {
             const card = document.createElement('div');
             card.className = 'animal-card';
-            card.innerHTML = `
-                <h3>【 ${animal} 】</h3>
-                <p>${formatDescription(animalArchetypes[animal].desc)}</p>
-            `;
+            card.innerHTML = `<h3>【 ${animal} 】</h3><p>${formatDescription(animalArchetypes[animal].desc)}</p>`;
             animalGuide.appendChild(card);
         });
     }
 
-    // 核心流程函数
     function startQuiz() {
-        if (isProcessing) return;
-        isProcessing = true;
-        initQuizState();
-        [startScreen, resultScreen, animalGuideScreen, couponScreen].forEach(s => s.classList.add('hidden'));
-        quizScreen.classList.remove('hidden');
-        showQuestion();
-        isProcessing = false;
+        currentQuestionIndex = 0;
+        selectedOptions = [];
+        showScreen('quiz');
+        renderQuestion();
     }
 
-    function showQuestion() {
-        if (currentQuestionIndex >= quizData.length) {
-            showResult();
-            return;
-        }
-
+    function renderQuestion() {
+        if (currentQuestionIndex >= quizData.length) { showResult(); return; }
         const q = quizData[currentQuestionIndex];
-        questionTitle.innerHTML = `${currentQuestionIndex + 1}. ${q.question}`;
-        questionCounter.textContent = `${currentQuestionIndex + 1}/${quizData.length}`;
-        backBtn.style.visibility = currentQuestionIndex > 0 ? 'visible' : 'hidden';
-        
+        questionTitle.textContent = `${currentQuestionIndex + 1}. ${q.question}`;
+        questionCounter.textContent = `${currentQuestionIndex + 1}`;
+        progressBar.style.width = `${((currentQuestionIndex) / quizData.length) * 100}%`;
+        document.getElementById('back-btn').style.visibility = currentQuestionIndex > 0 ? 'visible' : 'hidden';
         optionList.innerHTML = '';
         Object.keys(q.options).forEach(key => {
             const li = document.createElement('li');
-            li.className = 'option-item';
-            if (selectedOptions[currentQuestionIndex] === key) li.classList.add('selected');
+            li.className = 'option-item' + (selectedOptions[currentQuestionIndex] === key ? ' selected' : '');
             li.innerHTML = `<span class="option-prefix">${key}</span><span class="option-text">${q.options[key]}</span>`;
-            li.addEventListener('click', () => selectOption(key));
+            li.onclick = () => selectOption(key);
             optionList.appendChild(li);
         });
-        
-        updateProgressBar();
     }
 
-    function selectOption(optionKey) {
+    function selectOption(key) {
         if (isProcessing) return;
         isProcessing = true;
-        selectedOptions[currentQuestionIndex] = optionKey;
-        setTimeout(() => {
-            currentQuestionIndex++;
-            showQuestion();
-            isProcessing = false;
-        }, 300);
-    }
-    
-    function goBack() {
-        if (isProcessing || currentQuestionIndex <= 0) return;
-        isProcessing = true;
-        currentQuestionIndex--;
-        showQuestion();
+        selectedOptions[currentQuestionIndex] = key;
+        currentQuestionIndex++;
+        renderQuestion();
         isProcessing = false;
     }
 
-    function calculateScores() {
-        initQuizState(); // 只重置分数，不重置题目索引
-        for (let i = 0; i < selectedOptions.length; i++) {
-            const option = selectedOptions[i];
-            if (option) {
-                const questionScores = scoreMap[i][option];
-                for (const dim in questionScores) {
-                    scores[dim] = (scores[dim] || 0) + questionScores[dim];
-                }
-            }
-        }
-    }
+    function goBack() { if (currentQuestionIndex > 0) { currentQuestionIndex--; renderQuestion(); } }
 
     function showResult() {
-        quizScreen.classList.add('hidden');
-        loadingScreen.classList.remove('hidden');
-        
-        calculateScores();
-
+        showScreen('loading');
         setTimeout(() => {
-            let bestMatchAnimal = '水豚';
-            let minDifference = Infinity;
-
+            const scores = {};
+            selectedOptions.forEach((option, i) => {
+                const questionScores = scoreMap[i][option];
+                for (const dim in questionScores) { scores[dim] = (scores[dim] || 0) + questionScores[dim]; }
+            });
+            let bestMatchAnimal = '水豚', minDifference = Infinity;
             Object.keys(animalArchetypes).forEach(animalName => {
                 const animalVector = animalArchetypes[animalName].vector;
-                let currentDifference = 0;
-                dimensionKeys.forEach(key => {
-                    const diff = (scores[key] || 0) - (animalVector[key] || 0);
-                    currentDifference += diff * diff;
-                });
-                if (currentDifference < minDifference) {
-                    minDifference = currentDifference;
-                    bestMatchAnimal = animalName;
-                }
+                let diff = 0;
+                dimensionKeys.forEach(key => diff += Math.pow((scores[key] || 0) - (animalVector[key] || 0), 2));
+                if (diff < minDifference) { minDifference = diff; bestMatchAnimal = animalName; }
             });
-
             document.getElementById('result-animal').textContent = `【 ${bestMatchAnimal} 】`;
             resultDescription.innerHTML = formatDescription(animalArchetypes[bestMatchAnimal].desc);
-            
-            loadingScreen.classList.add('hidden');
-            resultScreen.classList.remove('hidden');
+            showScreen('result');
         }, 1500);
     }
-
-    function showAllAnimals() {
-        resultScreen.classList.add('hidden');
-        animalGuideScreen.classList.remove('hidden');
-    }
     
-    function backToResult() {
-        animalGuideScreen.classList.add('hidden');
-        resultScreen.classList.remove('hidden');
-    }
-    
-    // 【【【 卡券验证核心函数 】】】
     async function verifyCoupon() {
-        const inputCode = couponInput.value.toUpperCase().trim();
-        couponError.textContent = ''; 
+        const inputCode = couponInput.value.trim();
+        if (!inputCode) { couponError.textContent = '请输入卡券密码。'; return; }
+        
+        // --- ⬇️ 已根据您提供的信息填好并修正 ⬇️ ---
+        const API_TOKEN = 'uskDUbM4CPy64coNePFs9Uk'; 
+        const DATASHEET_ID = 'dstXlyh1k5ssc91ha5';
+        
+        // --- ⬇️ 已根据您提供的信息修正字段ID ⬇️ ---
+        const CODE_FIELD_ID = 'fldhY2YZDYtAY';
+        const USED_FIELD_ID = 'fldgr1u5wecnt';
 
-        if (!inputCode) {
-            couponError.textContent = '请输入卡券密码。';
-            return;
-        }
-
-        // --- 📍 请在这里填入您自己的信息 📍 ---
-        const YOUR_API_TOKEN = 'uskDUbM4CPy64coNePFs9Uk'; // ⚠️ 替换成您在第三步获取的API Token
-        const YOUR_DATASHEET_ID = 'dstXlyh1k5ssc91ha5'; // ⚠️ 替换成您在第四步获取的数据表ID
-        // ------------------------------------
-
-        if (YOUR_API_TOKEN === 'olkxxxxxxxxxxxxxxxxx' || YOUR_DATASHEET_ID === 'dstxxxxxxxxxxxxxxxxx') {
-            couponError.textContent = '错误：请先在HTML代码中配置API Token和数据表ID。';
-            return;
-        }
-
+        const verifyBtn = document.getElementById('verify-btn');
         verifyBtn.disabled = true;
         verifyBtn.textContent = '验证中...';
+        couponError.textContent = '';
 
         try {
-            const queryUrl = `https://api.vika.cn/fusion/v1/datasheets/${YOUR_DATASHEET_ID}/records?filterByFormula=({code}="${inputCode}")`;
+            // 注意：API查询时，我们使用 `fieldKey` 参数来告诉维格表我们用的是字段ID而不是字段名
+            const queryUrl = `https://api.vika.cn/fusion/v1/datasheets/${DATASHEET_ID}/records?filterByFormula={${CODE_FIELD_ID}}="${inputCode}"&fieldKey=id`;
             
-            const queryResponse = await fetch(queryUrl, {
-                headers: { 'Authorization': `Bearer ${YOUR_API_TOKEN}` }
-            });
-
+            const queryResponse = await fetch(queryUrl, { headers: { 'Authorization': `Bearer ${API_TOKEN}` } });
             if (!queryResponse.ok) throw new Error(`网络错误: ${queryResponse.statusText}`);
-
+            
             const queryResult = await queryResponse.json();
-
             if (!queryResult.success || queryResult.data.records.length === 0) {
                 couponError.textContent = '卡券不存在或无效';
             } else {
                 const record = queryResult.data.records[0];
-                if (record.fields.used) {
+                // 关键点：检查 fields 对象中是否 **包含** USED_FIELD_ID 这个 key
+                if (USED_FIELD_ID in record.fields) {
                     couponError.textContent = '此卡券已被使用';
                 } else {
-                    const updateUrl = `https://api.vika.cn/fusion/v1/datasheets/${YOUR_DATASHEET_ID}/records`;
+                    const updateUrl = `https://api.vika.cn/fusion/v1/datasheets/${DATASHEET_ID}/records`;
                     await fetch(updateUrl, {
                         method: 'PATCH',
-                        headers: {
-                            'Authorization': `Bearer ${YOUR_API_TOKEN}`,
-                            'Content-Type': 'application/json'
-                        },
+                        headers: { 'Authorization': `Bearer ${API_TOKEN}`, 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            records: [{ recordId: record.recordId, fields: { used: true } }]
+                            records: [{ recordId: record.recordId, fields: { [USED_FIELD_ID]: true } }],
+                            fieldKey: 'id' // 同样使用字段ID来更新
                         })
                     });
-                    
-                    couponScreen.classList.add('hidden');
-                    startScreen.classList.remove('hidden');
+                    showScreen('start');
                 }
             }
         } catch (error) {
@@ -470,25 +228,18 @@
         }
     }
 
-    // 事件监听器
-    startBtn.addEventListener('click', startQuiz);
-    restartBtn.addEventListener('click', () => { // 再测一次返回卡券输入页
-        [startScreen, resultScreen, quizScreen, animalGuideScreen].forEach(s => s.classList.add('hidden'));
-        couponScreen.classList.remove('hidden');
-    });
-    backBtn.addEventListener('click', goBack);
-    browseBtn.addEventListener('click', showAllAnimals);
-    backToResultBtn.addEventListener('click', backToResult);
-    verifyBtn.addEventListener('click', verifyCoupon);
+    // --- Event Listeners ---
+    document.getElementById('start-btn').addEventListener('click', startQuiz);
+    document.getElementById('restart-btn').addEventListener('click', () => showScreen('coupon'));
+    document.getElementById('back-btn').addEventListener('click', goBack);
+    document.getElementById('browse-btn').addEventListener('click', () => showScreen('guide'));
+    document.getElementById('back-to-result-btn').addEventListener('click', () => showScreen('result'));
+    document.getElementById('verify-btn').addEventListener('click', verifyCoupon);
     couponInput.addEventListener('keypress', e => { if (e.key === 'Enter') verifyCoupon(); });
 
-    // 初始化
+    // --- Initialization ---
     window.addEventListener('DOMContentLoaded', () => {
-        if (typeof quizData === 'undefined') {
-            document.body.innerHTML = '<div style="padding:40px;text-align:center;color:red;">错误：未能加载data.js。</div>';
-            return;
-        }
-        initQuizState();
+        if (typeof quizData === 'undefined') { document.body.innerHTML = '错误：未能加载data.js。'; return; }
         initAnimalGuide();
     });
     </script>
