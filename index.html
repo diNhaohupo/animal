@@ -51,7 +51,7 @@
             <input type="text" id="coupon-input" placeholder="输入卡券密码" autocomplete="off">
             <button id="verify-btn">验证并开始测试</button>
             <p id="coupon-error"></p>
-            <div class="screen-footer">动物塑</div>
+            <div class="screen-footer">珊瑚鲤鱼 · 动物塑</div>
         </div>
 
         <div id="start-screen" class="screen hidden">
@@ -93,6 +93,8 @@
     <script src="data.js"></script>
     
     <script>
+    const dimensionKeys = ["DOM", "STR", "COM", "SOL", "AGI", "SEC", "AES"]; // <-- 修正：已将变量添加到此处
+
     const screens = { coupon: document.getElementById('coupon-screen'), start: document.getElementById('start-screen'), quiz: document.getElementById('quiz-screen'), result: document.getElementById('result-screen'), guide: document.getElementById('animal-guide-screen'), loading: document.getElementById('loading-screen') };
     const couponInput = document.getElementById('coupon-input');
     const couponError = document.getElementById('coupon-error');
@@ -117,8 +119,6 @@
     }
 
     function startQuiz() {
-        currentQuestionIndex = 0;
-        selectedOptions = [];
         showScreen('quiz');
         renderQuestion();
     }
@@ -154,11 +154,13 @@
     function showResult() {
         showScreen('loading');
         setTimeout(() => {
-            const scores = {};
+            scores = {}; // 重置分数
             dimensionKeys.forEach(key => scores[key] = 0);
             selectedOptions.forEach((option, i) => {
-                const questionScores = scoreMap[i][option];
-                for (const dim in questionScores) { scores[dim] = (scores[dim] || 0) + questionScores[dim]; }
+                if (option) {
+                    const questionScores = scoreMap[i][option];
+                    for (const dim in questionScores) { scores[dim] = (scores[dim] || 0) + questionScores[dim]; }
+                }
             });
             let bestMatchAnimal = '水豚', minDifference = Infinity;
             Object.keys(animalArchetypes).forEach(animalName => {
@@ -179,8 +181,6 @@
         
         const API_TOKEN = 'uskDUbM4CPy64coNePFs9Uk'; 
         const DATASHEET_ID = 'dstXlyh1k5ssc91ha5';
-        
-        // 我们现在使用字段名，因为这最符合您提供的数据
         const CODE_FIELD_NAME = 'code';
         const USED_FIELD_NAME = 'used';
 
@@ -190,19 +190,14 @@
         couponError.textContent = '';
 
         try {
-            // 查询时，我们告诉API，我们用的是字段名(name)来筛选和返回
             const queryUrl = `https://api.vika.cn/fusion/v1/datasheets/${DATASHEET_ID}/records?filterByFormula={${CODE_FIELD_NAME}}="${inputCode}"&fieldKey=name`;
-            
             const queryResponse = await fetch(queryUrl, { headers: { 'Authorization': `Bearer ${API_TOKEN}` } });
             if (!queryResponse.ok) throw new Error(`网络错误: ${queryResponse.statusText}`);
-            
             const queryResult = await queryResponse.json();
-
             if (!queryResult.success || queryResult.data.records.length === 0) {
                 couponError.textContent = '卡券不存在或无效';
             } else {
                 const record = queryResult.data.records[0];
-                
                 if (record.fields[USED_FIELD_NAME] === true) {
                     couponError.textContent = '此卡券已被使用';
                 } else {
@@ -227,7 +222,6 @@
         }
     }
 
-    // --- Event Listeners ---
     document.getElementById('start-btn').addEventListener('click', startQuiz);
     document.getElementById('restart-btn').addEventListener('click', () => showScreen('coupon'));
     document.getElementById('back-btn').addEventListener('click', goBack);
@@ -236,7 +230,6 @@
     document.getElementById('verify-btn').addEventListener('click', verifyCoupon);
     couponInput.addEventListener('keypress', e => { if (e.key === 'Enter') verifyCoupon(); });
 
-    // --- Initialization ---
     window.addEventListener('DOMContentLoaded', () => {
         if (typeof quizData === 'undefined') { document.body.innerHTML = '错误：未能加载data.js。'; return; }
         initAnimalGuide();
